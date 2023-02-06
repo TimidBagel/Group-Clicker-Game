@@ -4,6 +4,8 @@ class Player{
         this.Buildings = []
         this.Modifiers = []
         this.Upgrades = []
-        this.FoodCap = 20000 //Temp
+        this.FoodCap = 20000 //Temporary, this number will be balanced.
     }
 }
+
+const MainPlayer = new Player();
