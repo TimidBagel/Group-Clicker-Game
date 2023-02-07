@@ -73,16 +73,15 @@ function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
-    }//This is a temporary event trigger to test the event.
+    }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
-        //When we add modifers we can modify this number and stuff ~K
-
+       
     }
-    */
-    document.getElementById("cell_food_stat_food_value").innerHTML = `${mainPlayer.food}`
+    
+    document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
     //Sets Shop text
     for (let i = 0; i < allBuildings.length; i++) {
         var curBuil = allBuildings[i]
@@ -94,7 +93,8 @@ function Tick() {
             }
 
         } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
-        
+        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `${Math.round(curBuil.cost)} food`
+        document.getElementById(`shop_${curBuil.id}_count`).innerHTML = amtOfBuilding
         //document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round((curBuil.cost))} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
     }
 

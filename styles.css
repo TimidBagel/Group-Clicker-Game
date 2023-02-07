@@ -186,7 +186,7 @@ body,
     grid-column: 1/2;
     grid-row: 2/3;
 
-    font-size: 9px;
+    font-size: 12px;
     margin: 0;
     padding: 5px;
 }
@@ -199,7 +199,7 @@ body,
     font-weight: bold;
 }
 
-.cell_event_log_entry_description {}
+/* .cell_event_log_entry_description {} */
 
 .cell_event_log_entry_decorator_upgrade {
     color: rgb(32, 107, 151);

@@ -88,25 +88,24 @@
             </div>
             <div class="cell" id="cell_shop">
                 <span id="cell_shop_tabs">
-                    <button class="cell_shop_tab" id="cell_shop_tab_upgrades">U</button>
                     <button class="cell_shop_tab" id="cell_shop_tab_buildings">B</button>
+                    <button class="cell_shop_tab" id="cell_shop_tab_upgrades">U</button>
+                    
                 </span>
                 <span class="cell_shop_options">
                     <!-- This should all be done via JavaScript 
                          This is only an example                -->
                     <div class="cell_shop_option" id="cell_shop_option_kibbleserf">
                         <p class="cell_shop_option_title">Kibble Serf</p>
-                        <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. </p>
-                        <span class="cell_shop_option_count">0</span>
-                        <button class="cell_shop_option_button_add" onclick="BuyBuilding(kibbleSerf)"><span>$</span>150</button>
+                        <p class="cell_shop_option_description">A worker to harvest more kibble</p>
+                        <span class="cell_shop_option_count" id="shop_kibbleserf_count">0</span>
+                        <button class="cell_shop_option_button_add" id="buy_kibbleserf_button" onclick="BuyBuilding(kibbleSerf)"><span>$</span>150</button>
                     </div>
                     <div class="cell_shop_option" id="cell_shop_option_kibblecircle">
-                        <p class="cell_shop_option_title">Kibble Circle</p>
-                        <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. </p>
-                        <span class="cell_shop_option_count">0</span>
-                        <button class="cell_shop_option_button_add" onclick="BuyBuilding(kibbleCircle)"><span>$</span>600</button>
+                        <p class="cell_shop_option_title">Kibble Summoning Circle</p>
+                        <p class="cell_shop_option_description">An occult circle to summon kibble from the Otherworld</p>
+                        <span class="cell_shop_option_count" id="shop_kibblecircle_count">0</span>
+                        <button class="cell_shop_option_button_add" id="buy_kibblecircle_button"onclick="BuyBuilding(kibbleCircle)"><span>$</span>600</button>
                     </div>
                 </span>
             </div>
