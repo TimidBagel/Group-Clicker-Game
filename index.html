@@ -15,6 +15,22 @@
     <p style="text-align: center;", id="buy_kibbleserf_button", onclick="BuyBuilding(kibbleSerf)"></p>
     <br>
     <p style="text-align: center;", id="buy_kibblecircle_button", onclick="BuyBuilding(kibbleCircle)"></p>
+    <!-- Temporary events, will be improved later -->
+    <div style="padding-left: 15%; padding-right: 15%; display: none;" id="investmentorgift_event">
+            <div style="background-color: bisque; border-radius: 10%;">
+    
+                <h2 style="text-align: center;">Getting Noticed</h2>
+                <p class="mainText">Your Efforts to Feed the Dog are getting noticed by some large companies. They are excited to support an up-and-coming entrepreneur, and would like to strike a deal</p>
+                <div style="display: grid; grid-template-columns: auto auto;column-gap: 25px;">
+                    <button onmouseenter="SetActive(document.getElementById(`investmentorgift_event_gift_tooltip`))" onmouseleave="Disable(document.getElementById(`investmentorgift_event_gift_tooltip`))" onclick="AddPlayerEffects({Food:1345}), Disable(document.getElementById(`investmentorgift_event`))">Request a Donation</button>
+                    <button onmouseenter="SetActive(document.getElementById(`investmentorgift_event_investment_tooltip`))" onmouseleave="Disable(document.getElementById(`investmentorgift_event_investment_tooltip`))" onclick="AddPlayerEffects({Modifers:[investment]}), Disable(document.getElementById(`investmentorgift_event`))">Request an Investment</button>
+                </div>
+                <p style="display: none; color: green;"class="mainText" id="investmentorgift_event_gift_tooltip">Gain 1345 food</p>
+                <p style="display: none; color:green"class="mainText" id="investmentorgift_event_investment_tooltip">Gain <b>Small Investment Which Grants</b><br>+15% Production</p>
+    
+            </div>
+            
+        </div>
 
 
 </body>

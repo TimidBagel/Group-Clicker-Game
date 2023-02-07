@@ -5,7 +5,7 @@ class Player{
         this.modifiers = []
         this.upgrades = []
         this.foodCap = 20000 //Temporary, this number will be balanced.
-        this.Inflation = 22
+        this.inflation = 22
     }
 }
 const mainPlayer = new Player();
@@ -24,14 +24,23 @@ class Modifer{
         this.Boost = Boost
     }
 }
+function SetActive(div){
+    div.style.display = "block";
+}
+function Disable(div){
+    div.style.display = "none";
+}
 const allBuildings = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")  
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
-const smallProductionBoost = new Modifer("Production", "Small Production Boost", 15)
+const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
 allBuildings.push(kibbleSerf)//Make sure to add all of the buildings to allBuildings so text renders correctly
-mainPlayer.modifiers.push(smallProductionBoost)//For testing
+//mainPlayer.modifiers.push(smallProductionBoost)//For testing
 function Tick(){
+    if(!mainPlayer.modifiers.includes(investment)){
+        SetActive(document.getElementById("investmentorgift_event"))
+    }
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
@@ -54,7 +63,25 @@ function Tick(){
         
     }
     
+    
     window.setTimeout(Tick, 1)
+}
+function AddPlayerEffects( {Inflation=0, Food=0, FoodCap=0, Modifers=[], Buildings=[]} = {}){
+    
+    mainPlayer.inflation += Inflation
+    mainPlayer.food += Food
+    mainPlayer.foodCap += FoodCap
+    for(let i = 0; i<Modifers.length; i++){
+        
+    mainPlayer.modifiers.push(Modifers[i])
+   }
+   for(let i = 0; i<Buildings.length; i++){
+    mainPlayer.buildings.push(Buildings[i])
+   }
+   
+   
+   
+   
 }
 function BuyBuilding(building){
     if(building.Cost > mainPlayer.food){
