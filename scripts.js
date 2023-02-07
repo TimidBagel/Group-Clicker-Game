@@ -64,10 +64,24 @@ function Disable(div) {
 const allBuildings = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const kibbleHele = new Building(12, 50, "Kibble Helecopter Landing", "kibblehele")
+const kibbleSpire = new Building(28, 100, "Kibble Spire", "kibblespire")
+const kibbleShip = new Building(75, 250, "Kibble Shipment", "kibbleship")
+const kibbleTrade = new Building(160, 500, "Kibble Trade Center", "kibbletrade")
+const kibbleFound = new Building(350, 1000, "Kibble Foundry", "kibblefound")
+const kibbleSpace = new Building(950, 2500, "Kibble Space Port", "kibblespace")
+const kibbleNano = new Building(5000, 10000, "Kibble Nano Enterprise", "kibblenano")
+
 const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
-
+allBuildings.push(kibbleHele)
 allBuildings.push(kibbleSerf)
+allBuildings.push(kibbleSpire)
+allBuildings.push(kibbleShip)
+allBuildings.push(kibbleTrade)
+allBuildings.push(kibbleFound)
+allBuildings.push(kibbleSpace)
+allBuildings.push(kibbleNano)
 
 function Tick() {
     if (!mainPlayer.modifiers.includes(investment)) {
