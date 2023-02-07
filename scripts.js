@@ -21,8 +21,9 @@ class Building {
 }
 
 class Upgrade { // please add all necessary upgrade components, remove comment when complete
-    constructor(cost, name, id) {
+    constructor(cost, adjustment, name, id) {
         this.cost = cost
+        this.adjustment = adjustment
         this.name = name
         this.id = id
     }
@@ -61,9 +62,11 @@ function Disable(div) {
     div.style.display = "none";
 }
 
+var clickPower = 1
 const allBuildings = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const clickUpgrade = new Upgrade(200, 150, 'Click Upgrade', 'clickupgrade')
 const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
 
@@ -162,5 +165,5 @@ function GetModifier(type) {//Returns the modifier
 }
 
 function Click() {
-    mainPlayer.food += 1//This will be improved later
+    mainPlayer.food += clickPower //This will be improved later
 }
