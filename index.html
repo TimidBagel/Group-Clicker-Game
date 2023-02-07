@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,110 @@
     <script src="scripts.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
+    <span id="wrapper"> <!-- Wrapper is simply the application window -->
+        <div id="game"> <!-- Game is where our games wrapper -->
+            <div class="cell" id="cell_dog">
+                <img id="cell_dog_image_dog" width="60px"
+                    src="https://media.istockphoto.com/id/931785704/vector/paw_print.jpg?s=612x612&w=0&k=20&c=CXBPHlf7XHdJiiOULJrI9nGZjVNAj7cqnkM_eDyDdCU="
+                    alt="">
+                    <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
+            </div>
+            <div class="cell" id="cell_food">
+                <button id="cell_food_button_food">
+                    <img src="https://media.istockphoto.com/id/1148854779/vector/apple.jpg?s=612x612&w=0&k=20&c=MjPwHjAi5RzGUxLnVuPOyljykRM4f9k43qFmRMjtfV8="
+                        alt="" id="cell_food_image_food">
+                </button>
+                <div id="cell_food_stats">
+                    <span id="cell_food_stat_cps" class="cell_food_stat">CPS: <span
+                            id="cell_food_stat_cps_value">0</span></span>
+                    <span id="cell_food_stat_apc" class="cell_food_stat">APC: <span
+                            id="cell_food_stat_apc_value">0</span></span>
+                    <span id="cell_food_stat_food" class="cell_food_stat">Food: <span
+                            id="cell_food_stat_food_value">0</span></span>
+                </div>
+            </div>
+            <div class="cell" id="cell_event_log">
+                <div id="cell_event_log_events">
+                    <span class="cell_event_log_event">
+                        <span>
+                            <span class="cell_event_log_event_title">Title:</span>
+                            <span class="cell_event_log_event_description">Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Et architecto fugit officiis nihil provident animi blanditiis rerum
+                                eius alias, quia, non commodi, atque fugiat pariatur vitae fuga sint aperiam
+                                nulla?</span>
+                        </span>
+
+                        <span class="cell_event_log_event_choices">
+                            <button class="cell_event_log_event_choice">Yes</button>
+                            <button class="cell_event_log_event_choice">Maybe</button>
+                            <button class="cell_event_log_event_choice">No</button>
+                        </span>
+                    </span>
+                </div>
+
+                <div id="cell_event_log_entries">
+                    <!-- All event entries must go here-->
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_upgrade">
+                        <span class="cell_event_log_entry_title">Upgrade Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur,
+                            adipisicing elit. </span>
+                    </p>
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_building">
+                        <span class="cell_event_log_entry_title">Building Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit Impedit, ad numquam.
+                            Cupiditate quo inventore laboriosam placeat molestias unde suscipit dolor, error minus optio
+                            qui rerum exercitationem, quae maxime facilis ut. </span>
+                    </p>
+                    <p class="cell_event_log_entry">
+                        <span class="cell_event_log_entry_title">Event:</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur
+                            adipisicing elit. Impedit, ad numquam. Cupiditate quo inventore laboriosam placeat molestias
+                            unde suscipit dolor, error minus optio qui rerum exercitationem, quae maxime facilis ut.
+                        </span>
+                    </p>
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_upgrade">
+                        <span class="cell_event_log_entry_title">Upgrade Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur,
+                            adipisicing elit. </span>
+                    </p>
+                    <p class="cell_event_log_entry">
+                        <span class="cell_event_log_entry_title">Event:</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit Impedit, ad numquam.
+                            Cupiditate quo inventore laboriosam placeat molestias unde suscipit dolor, error minus optio
+                            qui rerum exercitationem, quae maxime facilis ut. </span>
+                    </p>
+                </div>
+            </div>
+            <div class="cell" id="cell_shop">
+                <span id="cell_shop_tabs">
+                    <button class="cell_shop_tab" id="cell_shop_tab_upgrades">U</button>
+                    <button class="cell_shop_tab" id="cell_shop_tab_buildings">B</button>
+                </span>
+                <span class="cell_shop_options">
+                    <!-- This should all be done via JavaScript 
+                         This is only an example                -->
+                    <div class="cell_shop_option" id="cell_shop_option_kibblesurf">
+                        <p class="cell_shop_option_title">Kibble Surf</p>
+                        <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. </p>
+                        <span class="cell_shop_option_count">0</span>
+                        <button class="cell_shop_option_button_add"><span>$</span>150</button>
+                    </div>
+                    <div class="cell_shop_option" id="cell_shop_option_kibblesquare">
+                        <p class="cell_shop_option_title">Kibble Square</p>
+                        <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. </p>
+                        <span class="cell_shop_option_count">0</span>
+                        <button class="cell_shop_option_button_add"><span>$</span>600</button>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </span>
 
 </body>
+
 </html>
