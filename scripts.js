@@ -1,6 +1,6 @@
 class Player {
     constructor(food, buildings, modifiers, upgrades, foodCap) {
-        this.food = 100
+        this.food = 0
         this.buildings = []
         this.upgrades = []
         this.modifiers = []
@@ -70,9 +70,13 @@ allBuildings.push(kibbleCircle)
 allBuildings.push(kibbleSerf)
 
 function Tick() {
-    if (!mainPlayer.modifiers.includes(investment)) {
-        SetActive(document.getElementById("investmentorgift_event"))
-    }//This is a temporary event trigger to test the event.
+    //Spaghetti for event checkers (This needs to be improved drastically)
+    if(mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
+        var Num = Math.floor(Math.random() * 100000)
+        if(Num > 99994){
+            SetActive(document.getElementById(`investmentorgift_event`))
+        }
+    }
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
