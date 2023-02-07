@@ -17,16 +17,25 @@ class Building{
         this.id = id
     }
 }
+class Modifer{
+    constructor(Type, Name, Boost){
+        this.Type = Type
+        this.Name = Name
+        this.Boost = Boost
+    }
+}
 const allBuildings = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")  
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const smallProductionBoost = new Modifer("Production", "Small Production Boost", 15)
 allBuildings.push(kibbleCircle)
-allBuildings.push(kibbleSerf)
+allBuildings.push(kibbleSerf)//Make sure to add all of the buildings to allBuildings so text renders correctly
+mainPlayer.modifiers.push(smallProductionBoost)//For testing
 function Tick(){
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += curBuil.Production / 100
+        mainPlayer.food += (curBuil.Production / 100) + (((curBuil.Production)*GetModifier("Production"))/100)
         //When we add modifers we can modify this number and stuff ~K
         
     }
@@ -57,6 +66,18 @@ function BuyBuilding(building){
         mainPlayer.buildings.push(building)
     }
 }
+function GetModifier(Type){//Returns the modifier
+    var Modifer= 0;
+    for(let i =0;i< mainPlayer.modifiers.length; i++){
+        if(mainPlayer.modifiers[i].Type == Type){
+            Modifer += mainPlayer.modifiers[i].Boost
+        }
+       
+    }
+   
+    return Modifer
+} 
+
 function Click(){
     mainPlayer.food += 1//This will be improved later
 }
