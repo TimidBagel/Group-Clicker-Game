@@ -5,7 +5,7 @@ class Player{
         this.modifiers = []
         this.upgrades = []
         this.foodCap = 20000 //Temporary, this number will be balanced.
-        this.Inflation = 22
+        this.Inflation = 20
     }
 }
 const mainPlayer = new Player();
@@ -18,10 +18,12 @@ class Building{
     }
 }
 const allBuildings = []
-const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")  
-const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const kibbleSerf = new Building(1, 15, "Kibble Serf", "kibbleserf")
+const kibbleMarket = new Building(5, 60, "Kibble Market", "kibblemarket")
+const kibbleCircle = new Building(25, 250, "Kibble Summoning Circle", "kibblecircle")
 allBuildings.push(kibbleCircle)
 allBuildings.push(kibbleSerf)
+allBuildings.push(kibbleMarket)
 function Tick(){
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
