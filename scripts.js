@@ -14,43 +14,43 @@ const mainPlayer = new Player();
 class Building {
     constructor(production, cost, name, id) {
         this.production = production
-        this.cost = cost,
-            this.name = name
+        this.cost = cost
+        this.name = name
         this.id = id
     }
 }
 
 class Upgrade { // please add all necessary upgrade components, remove comment when complete
     constructor(cost, name, id) {
-        this.cost = cost,
-            this.name = name,
-            this.id = id
+        this.cost = cost
+        this.name = name
+        this.id = id
     }
 }
 
 class EventOption {
     constructor(type, foodDelta, inflationDelta, productionDelta) { // and whatever other impacts 
-        this.type = type, // string
-            this.foodDelta = foodDelta, // float
-            this.inflationDelta = inflationDelta, // float
-            this.productionDelta = productionDelta // float
+        this.type = type
+        this.foodDelta = foodDelta
+        this.inflationDelta = inflationDelta
+        this.productionDelta = productionDelta
     }
 }
 
 class Event { // add all necessary event components
     constructor(name, description, options) {
-        this.name = name,
-            this.severity = description,
-            this.options = options // pass in a list of option names
+        this.name = name
+        this.severity = description
+        this.options = options // pass in a list of option names
     }
 }
 
 
 class Modifer {
-    constructor(Type, Name, Boost) {
-        this.Type = Type
-        this.Name = Name
-        this.Boost = Boost
+    constructor(type, name, boost) {
+        this.type = type
+        this.name = name
+        this.boost = boost
     }
 }
 
@@ -68,100 +68,52 @@ const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
 
 allBuildings.push(kibbleSerf)
+
 function Tick() {
+    if (!mainPlayer.modifiers.includes(investment)) {
+        SetActive(document.getElementById("investmentorgift_event"))
+    }//This is a temporary event trigger to test the event.
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += curBuil.production / 100
-
-        allBuildings.push(kibbleSerf)//Make sure to add all of the buildings to allBuildings so text renders correctly
-        //mainPlayer.modifiers.push(smallProductionboost)//For testing
-        function Tick() {
-            if (!mainPlayer.modifiers.includes(investment)) {
-                SetActive(document.getElementById("investmentorgift_event"))
-            }//This is a temporary event trigger to test the event.
-            //Produce food from buildings
-            for (let i = 0; i < mainPlayer.buildings.length; i++) {
-                var curBuil = mainPlayer.buildings[i]
-                mainPlayer.food += (curBuil.production / 100) + (((curBuil.production) * GetModifier("Production")) / 100)
-                //When we add modifers we can modify this number and stuff ~K
-
-            }
-            document.getElementById("currentfood_counter").innerHTML = `You have ${Math.round(mainPlayer.food)} food`
-            //Sets Shop text
-            for (let i = 0; i < allBuildings.length; i++) {
-                var curBuil = allBuildings[i]
-                var amtOfBuilding = 0
-                for (let e = 0; e < mainPlayer.buildings.length; e++) {
-                    var curPlayerBuil = mainPlayer.buildings[e]
-                    if (curBuil.name == curPlayerBuil.name) {
-                        amtOfBuilding += 1
-                    }
-
-                } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
-                document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${(curBuil.cost).toPrecision(2)} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
-            }
-
-            window.setTimeout(Tick, 1)
-        }
-        function BuyBuilding(building) {
-            if (building.cost > mainPlayer.food) {
-                alert(`Not enough food to purchase ${building.name}!`)
-            }
-            else {
-                mainPlayer.food -= building.cost;
-                building.cost += (building.cost / 100) * mainPlayer.inflation
-                mainPlayer.buildings.push(building)
-            }
-        }
-
-        function BuyUpgrade(upgrade) {
-            if (upgrade.cost > mainPlayer.food) {
-                alert(`Not enough food to purchase ${upgrade.name}!`)
-            }
-            else {
-                mainPlayer.food -= upgrade.cost
-                upgrade.cost += (upgrade.cost / 100) * mainPlayer.inflation
-                mainPlayer.upgrades.push(upgrade)
-            }
-        }
-
-        // takes an event, which has a list of options, chooses behaviour based on button id
-        function EventOption(event, optionNum) {
-
-        }
-
-        // onclick function for abominable dog
-        function Click() {
-
-        }
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round(curBuil.cost)} food<br>You have ${amtOfBuilding} ${curBuil.name}s`//I can figure out getting the number from the player later this is just the simples ~K
+        mainPlayer.food += (curBuil.production / 100) + (((curBuil.production) * GetModifier("Production")) / 100)
+        //When we add modifers we can modify this number and stuff ~K
 
     }
+    document.getElementById("currentfood_counter").innerHTML = `You have ${Math.round(mainPlayer.food)} food`
+    //Sets Shop text
+    for (let i = 0; i < allBuildings.length; i++) {
+        var curBuil = allBuildings[i]
+        var amtOfBuilding = 0
+        for (let e = 0; e < mainPlayer.buildings.length; e++) {
+            var curPlayerBuil = mainPlayer.buildings[e]
+            if (curBuil.name == curPlayerBuil.name) {
+                amtOfBuilding += 1
+            }
 
+        } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
+        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${(curBuil.cost).toPrecision(2)} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
+    }
 
     window.setTimeout(Tick, 1)
 }
-function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, Modifers = [], Buildings = [] } = {}) {
+
+function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] } = {}) {
 
     mainPlayer.inflation += inflation
     mainPlayer.food += food
     mainPlayer.foodCap += foodCap
-    for (let i = 0; i < Modifers.length; i++) {
+    for (let i = 0; i < modifiers.length; i++) {
 
-        mainPlayer.modifiers.push(Modifers[i])
+        mainPlayer.modifiers.push(modifiers[i])
     }
     for (let i = 0; i < Buildings.length; i++) {
         mainPlayer.buildings.push(Buildings[i])
     }
-
-
-
-
 }
 function BuyBuilding(building) {
     if (building.cost > mainPlayer.food) {
-        alert(`Not enough food to purchase ${building.Name}!`)
+        alert(`Not enough food to purchase ${building.name}!`)
     }
     else {
         mainPlayer.food -= building.cost;
@@ -169,6 +121,18 @@ function BuyBuilding(building) {
         mainPlayer.buildings.push(building)
     }
 }
+
+function BuyUpgrade(upgrade) {
+    if (upgrade.cost > mainPlayer.food) {
+        alert(`Not enough food to purchase ${upgrade.name}!`)
+    }
+    else {
+        mainPlayer.food -= upgrade.cost
+        upgrade.cost += (upgrade.cost / 100) * mainPlayer.inflation
+        mainPlayer.upgrades.push(upgrade)
+    }
+}
+
 function GetModifier(type) {//Returns the modifier
     var Modifer = 0;
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
