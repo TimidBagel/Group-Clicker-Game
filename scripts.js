@@ -19,7 +19,8 @@ class Building{
 }
 const allBuildings = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")  
-
+const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+allBuildings.push(kibbleCircle)
 allBuildings.push(kibbleSerf)
 function Tick(){
     //Produce food from buildings
@@ -35,8 +36,8 @@ function Tick(){
         var curBuil = allBuildings[i]
         var amtOfBuilding = 0
         for (let e = 0; e < mainPlayer.buildings.length; e++) {
-            var curPlayerBuil = mainPlayer.buildings[i]
-            if(curBuil.Name = curPlayerBuil.Name){
+            var curPlayerBuil = mainPlayer.buildings[e]
+            if(curBuil.Name == curPlayerBuil.Name){
                 amtOfBuilding += 1
             }
         }
