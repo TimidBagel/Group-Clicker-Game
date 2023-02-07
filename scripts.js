@@ -10,7 +10,7 @@ class Player {
     }
 }
 const mainPlayer = new Player();
-
+const triggeredEvents = []
 class Building {
     constructor(production, cost, name, id) {
         this.production = production
@@ -71,18 +71,21 @@ allBuildings.push(kibbleSerf)
 
 function Tick() {
     //Spaghetti for event checkers (This needs to be improved drastically)
-    if(mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
+    if(mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && !triggeredEvents.includes("investmentOrGift")){
         var Num = Math.floor(Math.random() * 10000)
         if(Num > 9996){
             SetActive(document.getElementById(`investmentorgift_event`))
+            triggeredEvents.push("investmentOrGift")
         }
     }
-    if(mainPlayer.buildings.length > 10 && mainPlayer.food > 2000){
+    if(mainPlayer.buildings.length > 10 && mainPlayer.food > 2000 && !triggeredEvents.includes("risingFoodPrices")){
         var Num = Math.floor(Math.random() * 10000)
         if(Num > 9997){
             SetActive(document.getElementById("risingfoodprices_event"))
+            triggeredEvents.push("risingFoodPrices")
         }
     }
+    
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
