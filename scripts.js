@@ -76,7 +76,7 @@ function Tick() {
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 100) + (((curBuil.production) * GetModifier("Production")) / 100)
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
         //When we add modifers we can modify this number and stuff ~K
 
     }
@@ -92,7 +92,7 @@ function Tick() {
             }
 
         } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${(curBuil.cost).toPrecision(2)} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
+        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round((curBuil.cost))} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
     }
 
     window.setTimeout(Tick, 1)
