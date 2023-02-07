@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body onload="Tick()">
 
     <span id="wrapper"> <!-- Wrapper is simply the application window -->
         <div id="game"> <!-- Game is where our games wrapper -->
@@ -21,7 +21,7 @@
                     <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
             </div>
             <div class="cell" id="cell_food">
-                <button id="cell_food_button_food">
+                <button id="cell_food_button_food" onclick="Click()">
                     <img src="https://media.istockphoto.com/id/1148854779/vector/apple.jpg?s=612x612&w=0&k=20&c=MjPwHjAi5RzGUxLnVuPOyljykRM4f9k43qFmRMjtfV8="
                         alt="" id="cell_food_image_food">
                 </button>
@@ -94,19 +94,19 @@
                 <span class="cell_shop_options">
                     <!-- This should all be done via JavaScript 
                          This is only an example                -->
-                    <div class="cell_shop_option" id="cell_shop_option_kibblesurf">
-                        <p class="cell_shop_option_title">Kibble Surf</p>
+                    <div class="cell_shop_option" id="cell_shop_option_kibbleserf">
+                        <p class="cell_shop_option_title">Kibble Serf</p>
                         <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. </p>
                         <span class="cell_shop_option_count">0</span>
-                        <button class="cell_shop_option_button_add"><span>$</span>150</button>
+                        <button class="cell_shop_option_button_add" onclick="BuyBuilding(kibbleSerf)"><span>$</span>150</button>
                     </div>
-                    <div class="cell_shop_option" id="cell_shop_option_kibblesquare">
-                        <p class="cell_shop_option_title">Kibble Square</p>
+                    <div class="cell_shop_option" id="cell_shop_option_kibblecircle">
+                        <p class="cell_shop_option_title">Kibble Circle</p>
                         <p class="cell_shop_option_description">Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. </p>
                         <span class="cell_shop_option_count">0</span>
-                        <button class="cell_shop_option_button_add"><span>$</span>600</button>
+                        <button class="cell_shop_option_button_add" onclick="BuyBuilding(kibbleCircle)"><span>$</span>600</button>
                     </div>
                 </span>
             </div>
