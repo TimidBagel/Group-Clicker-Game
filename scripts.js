@@ -47,7 +47,7 @@ function Tick(){
         
     }
     
-    window.setTimeout(Tick, 1)
+    window.setTimeout(Tick, 10)
 }
 function BuyBuilding(building){
     if(building.Cost > mainPlayer.food){
