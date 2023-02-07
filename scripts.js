@@ -40,7 +40,7 @@ allBuildings.push(kibbleSerf)//Make sure to add all of the buildings to allBuild
 function Tick(){
     if(!mainPlayer.modifiers.includes(investment)){
         SetActive(document.getElementById("investmentorgift_event"))
-    }
+    }//This is a temporary event trigger to test the event.
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
@@ -48,7 +48,7 @@ function Tick(){
         //When we add modifers we can modify this number and stuff ~K
         
     }
-    document.getElementById("currentfood_counter").innerHTML = `You have ${Math.round((mainPlayer.food))} food`
+    document.getElementById("currentfood_counter").innerHTML = `You have ${Math.round(mainPlayer.food)} food`
     //Sets Shop text
     for (let i = 0; i < allBuildings.length; i++) {
         var curBuil = allBuildings[i]
@@ -59,7 +59,7 @@ function Tick(){
                 amtOfBuilding += 1
             }
         }
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.Name}: ${(curBuil.Cost).toPrecision(2)} Food<br>You have ${amtOfBuilding} ${curBuil.Name}s`//I can figure out getting the number from the player later this is just the simples ~K
+        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.Name}: ${Math.round(curBuil.Cost)} Food<br>You have ${amtOfBuilding} ${curBuil.Name}s`//I can figure out getting the number from the player later this is just the simples ~K
         
     }
     
@@ -89,7 +89,7 @@ function BuyBuilding(building){
     }
     else{
         mainPlayer.food -= building.Cost;
-        building.Cost += (building.Cost/100)*mainPlayer.Inflation
+        building.Cost += (building.Cost/100)*mainPlayer.inflation
         mainPlayer.buildings.push(building)
     }
 }
@@ -100,6 +100,9 @@ function GetModifier(Type){//Returns the modifier
             Modifer += mainPlayer.modifiers[i].Boost
         }
        
+    }
+    if(Modifer == 0){
+        Modifer = 1
     }
    
     return Modifer
