@@ -44,6 +44,46 @@
         </div>
 
     </div>
+    <div style="padding-left: 15%; padding-right: 15%; display: none;" id="risingfoodprices_event">
+        <div style="background-color: bisque; border-radius: 10%;">
+
+            <h2 style="text-align: center;">Rising food Prices</h2>
+            <p class="mainText">Kibble prices are rising globally, in no small part due to your efforts to anihilate the dog. This could make your quest difficult</p>
+            <div style="display: grid; grid-template-columns: auto auto;column-gap: 25px;">
+                <button onmouseenter="SetActive(document.getElementById(`risingfoodprices_event_hoard_tooltip`))"
+                    onmouseleave="Disable(document.getElementById(`risingfoodprices_event_hoard_tooltip`))"
+                    onclick="AddPlayerEffects({food:2515, inflation:15}), Disable(document.getElementById(`risingfoodprices_event`))">Hoard and hope for the worst!</button>
+                <button onmouseenter="SetActive(document.getElementById(`risingfoodprices_event_nothing_tooltip`))"
+                    onmouseleave="Disable(document.getElementById(`risingfoodprices_event_nothing_tooltip`))"
+                    onclick="AddPlayerEffects({inflation:10}), Disable(document.getElementById(`risingfoodprices_event`))">Nothing I can do</button>
+                <button onmouseenter="SetActive(document.getElementById(`risingfoodprices_event_support_tooltip`))"
+                    onmouseleave="Disable(document.getElementById(`risingfoodprices_event_support_tooltip`))"
+                    onclick="AddPlayerEffects({inflation:5, food:-1500}), Disable(document.getElementById(`risingfoodprices_event`))">Use wealth of food to attempt to improve the situation</button>
+            </div>
+            <div id="risingfoodprices_event_hoard_tooltip" style="display: none;">
+                <p style=" color: green;" class="mainText" >Gain 2515
+                    food</p>
+                <p style=" color: red;" class="mainText">Gain 15% inflation
+                    </p>
+            </div>
+            <div id="risingfoodprices_event_nothing_tooltip" style="display: none;">
+               
+                <p style=" color: red;" class="mainText">Gain 10% inflation
+                    </p>
+            </div>
+            <div id="risingfoodprices_event_support_tooltip" style="display: none;">
+                <p style=" color: red;" class="mainText" >Gain 5%
+                    inflation</p>
+                <p style=" color: red;" class="mainText">Lose 1500 food
+                    </p>
+            </div>
+           
+            <p style="display: none; color:green" class="mainText" id="investmentorgift_event_investment_tooltip">Gain
+                <b>Small Investment Which Grants</b><br>+15% Production</p>
+
+        </div>
+
+    </div>
 
 
 </body>

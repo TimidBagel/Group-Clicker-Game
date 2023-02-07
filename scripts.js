@@ -72,9 +72,15 @@ allBuildings.push(kibbleSerf)
 function Tick() {
     //Spaghetti for event checkers (This needs to be improved drastically)
     if(mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
-        var Num = Math.floor(Math.random() * 100000)
-        if(Num > 99994){
+        var Num = Math.floor(Math.random() * 10000)
+        if(Num > 9996){
             SetActive(document.getElementById(`investmentorgift_event`))
+        }
+    }
+    if(mainPlayer.buildings.length > 10 && mainPlayer.food > 2000){
+        var Num = Math.floor(Math.random() * 10000)
+        if(Num > 9997){
+            SetActive(document.getElementById("risingfoodprices_event"))
         }
     }
     //Produce food from buildings
