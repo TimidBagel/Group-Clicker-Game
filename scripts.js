@@ -1,6 +1,6 @@
 class Player{
     constructor(Food, Buildings, Modifiers, Upgrades, FoodCap){
-        this.food = 100
+        this.food = 1000000
         this.buildings = []
         this.modifiers = []
         this.upgrades = []
@@ -43,7 +43,7 @@ function Tick(){
                 amtOfBuilding += 1
             }
         }
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.Name}: ${(curBuil.Cost).toPrecision(2)} Food<br>You have ${amtOfBuilding} ${curBuil.Name}s`//I can figure out getting the number from the player later this is just the simples ~K
+        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.Name}: ${Math.round(curBuil.Cost)} Food<br>You have ${amtOfBuilding} ${curBuil.Name}s`//I can figure out getting the number from the player later this is just the simples ~K
         
     }
     
