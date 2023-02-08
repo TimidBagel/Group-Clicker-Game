@@ -191,12 +191,13 @@ body,
     padding: 5px;
 }
 
-.cell_event_log_entry {
+.cell_entry {
     margin: 8px;
 }
 
 .cell_event_log_entry_title {
     font-weight: bold;
+    text-align: center;
 }
 
 /* .cell_event_log_entry_description {} */

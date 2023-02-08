@@ -41,13 +41,33 @@ class EventOption {
     }
 }
 
-class Event { // add all necessary event components
-    constructor(name, description, options) {
-        this.name = name
-        this.severity = description
-        this.options = options // pass in a list of option names
+class Event{
+    constructor(title, description, options){
+        this.title = title
+        this.description = description
+        this.options = options
+
     }
 }
+//AddPlayerEffects
+function SpawnEvent(Event){
+    document.getElementById("event_title").innerHTML = Event.title
+    document.getElementById("event_description").innerHTML = Event.description
+    SetActive(document.getElementById("cell_event_log_events"))
+    var optionString = "e"//For demonstration.
+    for (let i = 0; i < Event.options.length; i++) {
+        var option = Event.options[i];
+        optionString += `<button class="cell_event_log_event_choice", onclick="AddPlayerEffects(${option.effects}), Disable(document.getElementById('cell_event_log_events'))" onmouseover="SetActive(document.getElementById('event_tooltip_${i}'))", onmouseleave="Disable(document.getElementById('event_tooltip_${i}'))>${option.name}</button>`
+        document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
+        
+        
+    }
+    console.log(optionString)//Logs the string with the modifications described in the for loop
+    
+    document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
+    
+}
+
 
 
 class Modifer {
@@ -152,9 +172,7 @@ function GetModifier(type) {//Returns the modifier
         }
 
     }
-    if (Modifer == 0) {
-        Modifer = 1
-    }
+   
 
     return Modifer
 }

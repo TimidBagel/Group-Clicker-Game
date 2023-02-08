@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Clicker Game</title>
-    <script src="scripts.js"></script>
+    <script defer src="scripts.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -34,22 +34,27 @@
                             id="cell_food_stat_food_value">0</span></span>
                 </div>
             </div>
+            <!-- Event defs go here-->
             <div class="cell" id="cell_event_log">
                 <div id="cell_event_log_events">
                     <span class="cell_event_log_event">
                         <span>
-                            <span class="cell_event_log_event_title">Title:</span>
-                            <span class="cell_event_log_event_description">Lorem ipsum dolor sit amet consectetur
+                            <span class="cell_event_log_event_title" id="event_title">Title:</span>
+                            <br>
+                            <span class="cell_event_log_event_description" id="event_description">Lorem ipsum dolor sit amet consectetur
                                 adipisicing elit. Et architecto fugit officiis nihil provident animi blanditiis rerum
                                 eius alias, quia, non commodi, atque fugiat pariatur vitae fuga sint aperiam
                                 nulla?</span>
                         </span>
 
-                        <span class="cell_event_log_event_choices">
-                            <button class="cell_event_log_event_choice">Yes</button>
+                        <span class="cell_event_log_event_choices" id="event_options_container">
+                            <button class="cell_event_log_event_choice" onmouseover="SetActive(document.getElementById('event_tooltip_0'))", onmouseleave="Disable(document.getElementById('event_tooltip_0'))">Yes</button>
                             <button class="cell_event_log_event_choice">Maybe</button>
                             <button class="cell_event_log_event_choice">No</button>
                         </span>
+                        <p id="event_tooltip_0" style="display: none; text-align: center;">TestTooltip</p>
+                        <p id="event_tooltip_1" style="display: none; text-align: center;">TestTooltip2</p>
+                        <p id="event_tooltip_2" style="display: none; text-align: center;">TestTooltip3</p>
                     </span>
                 </div>
 
