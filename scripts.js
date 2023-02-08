@@ -71,6 +71,7 @@ const kibbleTrade = new Building(160, 500, "Kibble Trade Center", "kibbletrade")
 const kibbleFound = new Building(350, 1000, "Kibble Foundry", "kibblefound")
 const kibbleSpace = new Building(950, 2500, "Kibble Space Port", "kibblespace")
 const kibbleNano = new Building(5000, 10000, "Kibble Nano Enterprise", "kibblenano")
+const kibbleUniverse = new Building(7500, 15000, "Kibble Universe Company", "kibbleuniverse")
 
 const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
@@ -82,6 +83,7 @@ allBuildings.push(kibbleTrade)
 allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
+allBuildings.push(kibbleUniverse)
 
 function Tick() {
     if (!mainPlayer.modifiers.includes(investment)) {
