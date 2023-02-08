@@ -67,7 +67,7 @@ const allBuildings = []
 const allUpgrades = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
-const foodClick = new Upgrade(100, "Food Click", "foodclick", "permanently increases food per click by", 1)
+const foodClick = new Upgrade(100, "Food Click (working title)", "foodclick", "permanently increases food per click by", 1)
 const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
 allBuildings.push(kibbleSerf)
@@ -165,7 +165,7 @@ function GetModifier(type) {//Returns the modifier
 
 function Click() {
     var clicks = 1
-        for (let i = 0; i < mainPlayer.upgrades.length; i++) {
+        for (let i = 0; i < mainPlayer.upgrades.length; i++) {//Check for upgrades, add click amount from upgrade
             var curUpg = mainPlayer.upgrades[i]
             if (mainPlayer.upgrades.length >= 1) {
                 var curUpgClicks = curUpg.clicks
