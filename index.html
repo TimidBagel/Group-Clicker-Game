@@ -84,6 +84,29 @@
         </div>
 
     </div>
+    <div style="padding-left: 15%; padding-right: 15%; display: none;" id="thief_event">
+        <div style="background-color: bisque; border-radius: 10%;">
+            <h2 style="text-align: center;">You are currently being robbed!</h2>
+            <p class="mainText">The thief has "kindly" requested for 3500 dog treats!</p>
+            <div style="display: grid; grid-template-columns: auto auto;column-gap: 25px;">
+                <button onmouseenter="SetActive(document.getElementById('robbery_get_robbed_tooltip'))"
+                    onmouseleave="Disable(document.getElementById('robbery_get_robbed_tooltip'))"
+                    onclick="AddPlayerEffects({food:- 3500}), Disable(document.getElementById('thief_event'))">
+                </button>
+                <button onmouseenter="SetActive(document.getElementById('robbery_fight_back_tooltip'))"
+                    onmouseleave="Disable(document.getElementById('robbery_fight_back_tooltip'))"
+                    onclick="Disable(document.getElementById('thief_event'))">
+                </button>
+            </div>
+
+        </div>
+        <div id="robbery_get_robbed_tooltip" style="display: none;">
+            <p style=" color: red;" class="mainText" >Forfeit 3500 kibble</p>
+        </div>
+        <div id="robbery_fight_back_tooltip" style="display: none;">
+            <p style=" color: yellow;" class="mainText" >Fight back! (this is risky)</p>
+        </div>
+    </div>
 
 
 </body>

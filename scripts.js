@@ -88,6 +88,13 @@ function Tick() {
             triggeredEvents.push("risingFoodPrices")
         }
     }
+    if(mainPlayer.buildings.length > 15 && mainPlayer.food > 3500 && !triggeredEvents.includes("robberyEvent")){
+        var Num = Math.floor(Math.random() * 10000)
+        if(Num > 9995){
+            SetActive(document.getElementById("thief_event"))
+            triggeredEvents.push("robberyEvent")
+        }
+    }
     
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
