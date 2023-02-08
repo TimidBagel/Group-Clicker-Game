@@ -12,11 +12,13 @@ class Player {
 const mainPlayer = new Player();
 
 class Building {
-    constructor(production, cost, name, id) {
+    constructor(production, cost, name, description, id, count) {
         this.production = production
         this.cost = cost
         this.name = name
+        this.description = description
         this.id = id
+        this.count = count
     }
 }
 
@@ -27,6 +29,8 @@ class Upgrade { // please add all necessary upgrade components, remove comment w
         this.id = id
     }
 }
+
+const test = new Upgrade(1, "upgrade", "upgrade")
 
 class EventOption {
     constructor(type, foodDelta, inflationDelta, productionDelta) { // and whatever other impacts 
@@ -62,12 +66,16 @@ function Disable(div) {
 }
 
 const allBuildings = []
-const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
-const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const allUpgrades = []
+
+const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
+const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
 const investment = new Modifer("Production", "investment", 0.15)
-allBuildings.push(kibbleCircle)
 
 allBuildings.push(kibbleSerf)
+allBuildings.push(kibbleCircle)
+
+let currentTab = ""
 
 function Tick() {
     /*console.log("hello");
@@ -78,24 +86,19 @@ function Tick() {
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
-       
+
     }
-    
+
     document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
     //Sets Shop text
-    for (let i = 0; i < allBuildings.length; i++) {
-        var curBuil = allBuildings[i]
-        var amtOfBuilding = 0
-        for (let e = 0; e < mainPlayer.buildings.length; e++) {
-            var curPlayerBuil = mainPlayer.buildings[e]
-            if (curBuil.name == curPlayerBuil.name) {
-                amtOfBuilding += 1
-            }
 
-        } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `${Math.round(curBuil.cost)} food`
-        document.getElementById(`shop_${curBuil.id}_count`).innerHTML = amtOfBuilding
-        //document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round((curBuil.cost))} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
+    // change this to only happen when buying a new building / upgrade ~ iain
+    if (currentTab == "buildings") {
+        
+    }
+
+    if (currentTab == "upgrades"){
+        // code for updating upgrade cells here
     }
 
     window.setTimeout(Tick, 1)
@@ -122,6 +125,11 @@ function BuyBuilding(building) {
         mainPlayer.food -= building.cost;
         building.cost += (building.cost / 100) * mainPlayer.inflation
         mainPlayer.buildings.push(building)
+
+        building.count++
+        building.cost += (building.cost / 100) * mainPlayer.inflation
+        document.getElementById(`shop_${building.id}_count`).innerHTML = building.count
+        document.getElementById(`buy_${building.id}_button`).innerHTML = `<span>$</span>${Math.round(building.cost)}`
     }
 }
 
@@ -149,6 +157,47 @@ function GetModifier(type) {//Returns the modifier
     }
 
     return Modifer
+}
+
+function ChangeTab(tab){
+    if (tab == "buildings"){
+        currentTab = tab
+    }
+
+    else if (tab == "upgrades"){
+        currentTab = tab
+    }
+
+    LoadCells(currentTab)
+}
+
+function LoadCells(tab) {
+    let newHTML = ""
+    let shopOptions = document.getElementById('cell_shop_options')
+
+    if (tab == "buildings"){
+        for (let i = 0; i < allBuildings.length; i++){
+            newHTML += WriteCell(allBuildings[i])
+        }
+    }
+
+    else if (tab == "upgrades"){
+        for (let i = 0; i < allUpgrades.length; i++){
+            newHTML += WriteCell(allUpgrades[i])
+        }
+    }
+
+    shopOptions.innerHTML = newHTML
+}
+
+function WriteCell(newCell) {
+    let method = newCell instanceof Building ? 'BuyBuilding' : 'BuyUpgrade'
+    return `<div class='cell_shop_option' id='cell_shop_option_${newCell.id}'>
+    <p class='cell_shop_option_title'>${newCell.name}</p>
+    <p class='cell_shop_option_description'>${newCell.description}</p>
+    <span class='cell_shop_option_cound' id='shop_${newCell.id}_count'>${newCell.count}</span>
+    <button class='cell_shop_option_button_add' id='buy_${newCell.id}_button' onclick='${method}(${newCell.id})'>
+    <span>$</span>${Math.round(newCell.cost)}</button></div>`
 }
 
 function Click() {
