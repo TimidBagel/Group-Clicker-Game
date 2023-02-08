@@ -21,10 +21,12 @@ class Building {
 }
 
 class Upgrade { // please add all necessary upgrade components, remove comment when complete
-    constructor(cost, name, id) {
+    constructor(cost, name, id, desc, clicks) {
         this.cost = cost
         this.name = name
         this.id = id
+        this.desc = desc
+        this.clicks = clicks
     }
 }
 
@@ -62,12 +64,14 @@ function Disable(div) {
 }
 
 const allBuildings = []
+const allUpgrades = []
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
+const foodClick = new Upgrade(100, "Food Click", "foodclick", "permanently increases food per click by", 1)
 const investment = new Modifer("Production", "investment", 0.15)
 allBuildings.push(kibbleCircle)
-
 allBuildings.push(kibbleSerf)
+allUpgrades.push(foodClick)
 
 function Tick() {
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -76,7 +80,7 @@ function Tick() {
     //Produce food from buildings
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
+        mainPlayer.food += (curBuil.production / 500) + (((curBuil.production) * GetModifier("Production")) / 500)
         //When we add modifers we can modify this number and stuff ~K
 
     }
@@ -94,8 +98,19 @@ function Tick() {
         } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
         document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round((curBuil.cost))} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
     }
+    for (let i = 0; i < allUpgrades.length; i++) {
+        var curUpg = allUpgrades[i]
+        var haveUpgrade = 0
+        for (let e = 0; e < mainPlayer.upgrades.length; e++) {
+            var curPlayerUpg = mainPlayer.upgrades[e]
+            if (curUpg.name == curPlayerUpg.name) {
+                haveUpgrade += 1
+            }
 
-    window.setTimeout(Tick, 1)
+        }
+        document.getElementById(`buy_${curUpg.id}_button`).innerHTML = `Buy ${curUpg.name}: ${Math.round((curUpg.cost))} Food<br>This upgrade ${curUpg.desc} ${curUpg.clicks}.`
+    }
+    window.setTimeout(Tick, 2)
 }
 
 function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] } = {}) {
@@ -128,8 +143,8 @@ function BuyUpgrade(upgrade) {
     }
     else {
         mainPlayer.food -= upgrade.cost
-        upgrade.cost += (upgrade.cost / 100) * mainPlayer.inflation
         mainPlayer.upgrades.push(upgrade)
+        document.getElementById(`buy_${upgrade.id}_button`).disabled = true;
     }
 }
 
@@ -149,5 +164,13 @@ function GetModifier(type) {//Returns the modifier
 }
 
 function Click() {
-    mainPlayer.food += 1//This will be improved later
-}
+    var clicks = 1
+        for (let i = 0; i < mainPlayer.upgrades.length; i++) {
+            var curUpg = mainPlayer.upgrades[i]
+            if (mainPlayer.upgrades.length >= 1) {
+                var curUpgClicks = curUpg.clicks
+                clicks = curUpgClicks + 1
+            }
+        }
+        mainPlayer.food += clicks
+}//This will be improved later  
