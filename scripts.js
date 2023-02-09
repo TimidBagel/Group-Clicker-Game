@@ -128,10 +128,7 @@ allBuildings.push(kibbleCircle)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
 const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
-SpawnEvent(InvestmentEvent)
 const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
-SpawnEvent(RobberyEvent)
-SpawnEvent(InvestmentEvent)
 const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "This kibble transportation hub is a soaring success, descending with deliciousness from the skies", "kibblehele", 0)
 const kibbleSpire = new Building(120, 500, "Kibble Spire", "Rising high and mighty, the Kibble Spire serves as a beacon of bite-sized brilliance to all creatures great and small", "kibblespire", 0)
 const kibbleShip = new Building(500, 2000, "Kibble Shipment", "A kibble powerhouse of sorts, the Kibble Shipment sets sail for uncharted territories in the quest for culinary conquest", "kibbleship", 0)
@@ -148,7 +145,6 @@ allBuildings.push(kibbleTrade)
 allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
-SpawnEvent(DogInvasionEvent)
 
 function Tick() {
     /*console.log("hello");
