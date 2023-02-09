@@ -117,6 +117,7 @@ const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult c
 const kibbleFactory = new Building(20, 150, "Kibble Factory", "A factory that is in a constant state of producing kibble (may not follow labour laws.)","kibblefactory", 0)
 const investment = new Modifer("Production", "investment", 0.15, 20)
 const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
+const dogAttack = new Modifer("Production", "dog invasion", -0.1, 25)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
@@ -126,7 +127,7 @@ allBuildings.push(kibbleFactory)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
-const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500})])
+const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog ainvasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Lose 5000 food", { food: -5000})])
 SpawnEvent(InvestmentEvent)
 const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "", "kibblehele", 0)
 const kibbleSpire = new Building(120, 500, "Kibble Spire", "", "kibblespire", 0)
@@ -145,6 +146,9 @@ allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 allBuildings.push(kibbleUniverse)
+SpawnEvent(DogInvasionEvent)
+const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
+SpawnEvent(RobberyEvent)
 
 function Tick() {
     /*console.log("hello");
