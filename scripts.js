@@ -110,6 +110,8 @@ for (let i = 0; i < allUpgrades.length; i++) {
     */
 
 
+// building template: const buildingName = new Building(production, cost, "building name", "this is the building description", "buildingId", count)
+
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
 const kibbleFactory = new Building(20, 150, "Kibble Factory", "A factory that is in a constant state of producing kibble (may not follow labour laws.)","kibblefactory", 0)
@@ -127,9 +129,28 @@ let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
 const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
 SpawnEvent(InvestmentEvent)
-SpawnEvent(DogInvasionEvent)
 const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
 SpawnEvent(RobberyEvent)
+SpawnEvent(InvestmentEvent)
+const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "", "kibblehele", 0)
+const kibbleSpire = new Building(120, 500, "Kibble Spire", "", "kibblespire", 0)
+const kibbleShip = new Building(500, 2000, "Kibble Shipment", "", "kibbleship", 0)
+const kibbleTrade = new Building(2500, 10000, "Kibble Trade Center", "", "kibbletrade", 0)
+const kibbleFound = new Building(350, 50000, "Kibble Foundry", "", "kibblefound", 0)
+const kibbleSpace = new Building(950, 200000, "Kibble Space Port", "", "kibblespace", 0)
+const kibbleNano = new Building(5000, 400000, "Kibble Nano Enterprise", "", "kibblenano", 0)
+const kibbleUniverse = new Building(7500, 1000000, "Kibble Universe Company", "", "kibbleuniverse", 0)
+
+allBuildings.push(kibbleHele)
+allBuildings.push(kibbleSpire)
+allBuildings.push(kibbleShip)
+allBuildings.push(kibbleTrade)
+allBuildings.push(kibbleFound)
+allBuildings.push(kibbleSpace)
+allBuildings.push(kibbleNano)
+allBuildings.push(kibbleUniverse)
+SpawnEvent(DogInvasionEvent)
+
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
