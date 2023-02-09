@@ -145,10 +145,17 @@ function Tick() {
     //Produce food from buildings
 
     var randomNumber = Math.floor(Math.random() * 10001)
-
+    
     randomNumber = randomNumber
+
     if (randomNumber == 99998) {
         SpawnEvent(InflationEvent)
+    }
+    if (randomNumber == 99995) {
+        SpawnEvent(BlackMarketEvent)
+    }
+    if (randomNumber == 99999){
+        SpawnEvent(InvestmentEvent)
     }
 
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
