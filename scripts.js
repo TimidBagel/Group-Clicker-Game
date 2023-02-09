@@ -252,3 +252,20 @@ function WriteCell(newCell) {
     <button class='cell_shop_option_button_add' id='buy_${newCell.id}_button' onclick='${method}(${newCell.id})'>
     <span>$</span>${Math.round(newCell.cost)}</button></div>`
 }
+
+// Event Log Message Handling
+
+function EmitMessage(type, title, description) {
+    let eventLog = document.getElementById("cell_event_log_entries")
+    let result = '<p class="cell_event_log_entry '
+    
+    if (type == 1 || type == 2) { 
+        result += ( type == 1 ? 'cell_event_log_entry_decorator_upgrade">' : 'cell_event_log_entry_decorator_building">')
+    }
+
+    result += `<span class="cell_event_log_entry_title">${title}: </span><span class="cell_event_log_entry_description">${description}</span></p>`
+
+    eventLog.innerHTML += result
+}
+
+EmitMessage(2, 'EmitMessage [script.js]', 'Use this to send messages here!')
