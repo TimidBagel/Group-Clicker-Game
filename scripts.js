@@ -204,7 +204,7 @@ function Tick() {
     
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 500) + (((curBuil.production) * GetModifier("Production")))
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
 
     }
     for (let i = 0; i < allUpgrades.length; i++) {
