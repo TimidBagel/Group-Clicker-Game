@@ -127,7 +127,8 @@ allBuildings.push(kibbleFactory)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
-const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog ainvasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Lose 5000 food", { food: -5000})])
+const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Lose 5000 food", { food: -5000})])
+const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
 SpawnEvent(InvestmentEvent)
 const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "", "kibblehele", 0)
 const kibbleSpire = new Building(120, 500, "Kibble Spire", "", "kibblespire", 0)
@@ -147,8 +148,6 @@ allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 allBuildings.push(kibbleUniverse)
 SpawnEvent(DogInvasionEvent)
-const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
-SpawnEvent(RobberyEvent)
 
 function Tick() {
     /*console.log("hello");
