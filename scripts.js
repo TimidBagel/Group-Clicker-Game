@@ -185,26 +185,26 @@ function Tick() {
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
 
-    var randomNumber = Math.floor(Math.random() * 100001)
+    var randomNumber = Math.floor(Math.random() * 10001)
     
     randomNumber = randomNumber
 
-    if (randomNumber == 99998 && mainPlayer.buildings.length > 25) {
+    if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 99995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
+    if (randomNumber == 9995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 99994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
+    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
         SpawnEvent(InvestmentEvent)
     }
-    if(randomNumber == 99993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
+    if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
     
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 200)
+        mainPlayer.food += (curBuil.production / 500) + (((curBuil.production) * GetModifier("Production")))
 
     }
     for (let i = 0; i < allUpgrades.length; i++) {
