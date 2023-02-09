@@ -133,7 +133,7 @@ const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
 
 
-const kibbleFactory = new Building(20, 150, "Kibble Factory", "A factory that is in a constant state of producing kibble (may not follow labour laws.)","kibblefactory", 0)
+const kibbleFactory = new Building(20, 150, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblefactory", 0)
 
 const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
@@ -156,14 +156,17 @@ const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by
 //SpawnEvent(InvestmentEvent)
 
 const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
-const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
-const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "This kibble transportation hub is a soaring success, descending with deliciousness from the skies", "kibblehele", 0)
-const kibbleSpire = new Building(120, 500, "Kibble Spire", "Rising high and mighty, the Kibble Spire serves as a beacon of bite-sized brilliance to all creatures great and small", "kibblespire", 0)
-const kibbleShip = new Building(500, 2000, "Kibble Shipment", "A kibble powerhouse of sorts, the Kibble Shipment sets sail for uncharted territories in the quest for culinary conquest", "kibbleship", 0)
-const kibbleTrade = new Building(2500, 10000, "Kibble Trade Center", "The Kibble Trade Center serves as a hub for all things kibble, exchanging and distributing yummy morsels far and wide", "kibbletrade", 0)
-const kibbleFound = new Building(350, 50000, "Kibble Foundry Plant", "The Kibble Foundry, a marvel of modern mealtimes, forges hot and fresh kibble with industrial-grade ingredients", "kibblefound", 0)
-const kibbleSpace = new Building(950, 200000, "Kibble Space Port", "Blasting off into the great unknown, the Kibble Space Port brings intergalactic flavor to everyone around the solar system", "kibblespace", 0)
-const kibbleNano = new Building(5000, 400000, "Kibble Nano Enterprise", "The Kibble Nano Enterprise harnesses the power of nanotechnology to create custom-made kibble with precise precision", "kibblenano", 0)
+const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 10}))])
+
+
+
+const kibbleHele = new Building(35, 150, "Kibble Wretch", "This terrifying beast roams the countryside, gathering kibble and returning it to its master.", "kibbleHele", 0)
+const kibbleSpire = new Building(120, 500, "Kibble Obelisk", "Rising high and mighty, occult rituals are carried out atop this place.", "kibbleSpire", 0)
+const kibbleShip = new Building(500, 2000, "Kibble Spice Trade", "A spice road of kibble for you to control.", "kibbleShip", 0)
+const kibbleTrade = new Building(2500, 10000, "Kibble Gultkion", "This terrifying creature consumes all in it's path and converts the matter into kibble within its gaping gullet.", "kibbleTrade", 0)
+const kibbleFound = new Building(350, 50000, "Kibble Rune Foundry", "Using unfathomable runes, this foundry fabricates kibble out of thin air.", "kibbleFound", 0)
+const kibbleSpace = new Building(950, 200000, "Kibble Altar", "Turns blood into kibble! (May violate OSHA)", "kibbleSpace", 0)
+const kibbleNano = new Building(5000, 400000, "Kibblethullu", "A terrifying creature from the depths, only bound by a weak seal hastily fabricated. Who cares about impending doom when you can have kibble?", "kibbleNano", 0)
 
 allBuildings.push(kibbleHele)
 allBuildings.push(kibbleFactory)
