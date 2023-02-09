@@ -56,7 +56,7 @@ function SpawnEvent(Event){
     SetActive(document.getElementById("cell_event_log_events"))
     var optionString = "e"//For demonstration.
     for (let i = 0; i < Event.options.length; i++) {
-        var option = Event.options[i];
+        var option = Event.options[i];                                 //This is the problem error see Event-Error for details
         optionString += `<button class="cell_event_log_event_choice", onclick="AddPlayerEffects(${option.effects}), Disable(document.getElementById('cell_event_log_events'))" onmouseover="SetActive(document.getElementById('event_tooltip_${i}'))", onmouseleave="Disable(document.getElementById('event_tooltip_${i}'))>${option.name}</button>`
         document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
         
