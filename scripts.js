@@ -6,7 +6,7 @@ class Player {
         this.modifiers = []
         this.upgrades = []
         this.foodCap = 20000 //Temporary, this number will be balanced.
-        this.inflation = 22
+        this.inflation = 12
         this.stability = 80
     }
 }
@@ -154,13 +154,13 @@ function Tick() {
     
     randomNumber = randomNumber
 
-    if (randomNumber == 9998 && mainPlayer.buildings.length > 10) {
+    if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
     }
     if (randomNumber == 9995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
+    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
         SpawnEvent(InvestmentEvent)
     }
     if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
@@ -169,7 +169,7 @@ function Tick() {
     
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 200)
 
     }
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
