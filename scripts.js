@@ -156,16 +156,16 @@ function Tick() {
 
     // Event spawners
 
-    if (randomNumber == 99998 && mainPlayer.buildings.length > 10) {
+    if (randomNumber == 9998 && mainPlayer.buildings.length > 10) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 99995 && food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
+    if (randomNumber == 9995 && food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 99994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
+    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
         SpawnEvent(InvestmentEvent)
     }
-    if(randomNumber == 99993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
+    if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
     
@@ -227,7 +227,7 @@ function BuyBuilding(building) {
     }
     else {
         mainPlayer.food -= building.cost;
-        EmitMessage(2, "Purchased Building!", `You have purchased ${building.name} for ${building.cost}.`)
+        EmitMessage(2, "Purchased Building!", `You have purchased ${building.name} for ${Math.round(building.cost)}.`)
         building.cost += (building.cost / 100) * mainPlayer.inflation
         mainPlayer.buildings.push(building)
         building.count++
