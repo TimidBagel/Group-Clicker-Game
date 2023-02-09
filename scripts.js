@@ -7,6 +7,7 @@ class Player {
         this.upgrades = []
         this.foodCap = 20000 //Temporary, this number will be balanced.
         this.inflation = 22
+        this.stability = 80
     }
 }
 const mainPlayer = new Player();
@@ -53,11 +54,11 @@ class Event {
 function SpawnEvent(Event) {
     document.getElementById("event_title").innerHTML = Event.title
     document.getElementById("event_description").innerHTML = Event.description
-    SetActive(document.getElementById("cell_event_log_events"))
+    SetActive(document.getElementById("cell_event_log_events"), false)
     var optionString = ""//For demonstration.
     for (let i = 0; i < Event.options.length; i++) {
         var option = Event.options[i];                                 //This is the problem error see Event-Error for details
-        optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"))' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
+        optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
         document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
 
         console.log(JSON.stringify(option.effects))
@@ -80,8 +81,14 @@ class Modifer {
     }
 }
 
-function SetActive(div) {
-    div.style.display = "block";
+function SetActive(div, isGrid) {
+    if(!isGrid){
+        div.style.display = "block";
+    }
+    else{
+        div.style.display = "grid"
+    }
+   
 }
 function Disable(div) {
     div.style.display = "none";
@@ -122,7 +129,10 @@ allBuildings.push(kibbleCircle)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
-SpawnEvent(InvestmentEvent)
+const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
+SpawnEvent(InflationEvent)
+
+//SpawnEvent(InvestmentEvent)
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -144,7 +154,10 @@ function Tick() {
         }//-100 is infinite
 
     }
-
+    GetModifier("Production")//To set the text
+    GetModifier("Click Power")
+    document.getElementById("inflation_counter").innerHTML = `${mainPlayer.inflation}%`
+    document.getElementById("stability_counter").innerHTML = `${mainPlayer.stability}%`
     document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
     //Sets Shop text
 
@@ -208,9 +221,18 @@ function GetModifier(type) {//Returns the modifier
         }
 
     }
+    //console.log(document.getElementById(`${type}_boost_display`))
+    if(Modifer >0){
+        document.getElementById(`${type}_boost_display`).style.color = "Green"
+    }
+    else{
+        document.getElementById(`${type}_boost_display`).style.color = "Red"
+    }
+    document.getElementById(`${type}_boost_display`).innerHTML = `${Modifer*100}%`
 
     return Modifer
 }
+
 
 function Click() {
     mainPlayer.food += 1 + ((1 / 100) * GetModifier("Click Power"))

@@ -36,7 +36,7 @@
             </div>
             <!-- Event defs go here-->
             <div class="cell" id="cell_event_log">
-                <div id="cell_event_log_events">
+                <div id="cell_event_log_events" style="display: none;">
                     <span class="cell_event_log_event">
                         <span>
                             <span class="cell_event_log_event_title" id="event_title">Title:</span>
@@ -48,7 +48,7 @@
                                 nulla?</span>
                         </span>
 
-                        <span class="cell_event_log_event_choices" id="event_options_container">
+                        <span id="event_options_container" style="display: grid;">
                             <button class="cell_event_log_event_choice"
                                 onmouseover="SetActive(document.getElementById('event_tooltip_0'))" ,
                                 onmouseleave="Disable(document.getElementById('event_tooltip_0'))">Yes</button>
@@ -92,7 +92,24 @@
                             Cupiditate quo inventore laboriosam placeat molestias unde suscipit dolor, error minus optio
                             qui rerum exercitationem, quae maxime facilis ut. </span>
                     </p>
+                   
+                    
                 </div>
+                <div>
+                    <div id="modifer_display", class="modifierGrid">
+                        <img src="Media/PlaceholderFactory.png" width="45">
+                        <p id="Production_boost_display">eee</p>
+                        <img src="Media/MousePlaceholder.png" width="45">
+                        <p id="Click Power_boost_display">eee</p>
+                        <img src="Media/InflationIconPlaceholder.png" width="45">
+                        <p id="inflation_counter"></p>
+                        <img src="Media/StabilityPlaceholder.png" width="45">
+                        <p id="stability_counter"></p>
+    
+                    </div>
+
+                </div>
+                
 
             </div>
             <div class="cell" id="cell_shop">
