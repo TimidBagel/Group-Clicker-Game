@@ -10,6 +10,26 @@ class Player {
         this.stability = 80
     }
 }
+class Dog{
+    constructor(){
+        this.fullness = 0
+        this.decayrate = 1
+        this.feedAmount = 10
+        this.foodFlation = 15
+    }
+}
+const mainDog = new Dog();
+function FeedDog(){
+    if(mainPlayer.food >= mainDog.feedAmount){
+        mainPlayer.food -= mainDog.feedAmount
+        mainDog.fullness += 1
+        mainDog.feedAmount += ((mainDog.feedAmount/100)*mainDog.foodFlation)
+        
+    }
+    else{
+        alert("Not Enough food to feed dog!")
+    }
+}
 const mainPlayer = new Player();
 
 class Building {
@@ -177,14 +197,18 @@ allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 
-//>>>>>>> new-buildings-upgrades-and-events
+
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
-
+    document.getElementById("cell_dog_range_food").value = mainDog.fullness
+    mainDog.fullness -= 0.001
+    if(mainDog.feedAmount > 10){
+        mainDog.feedAmount -= 0.0005
+    }
     var randomNumber = Math.floor(Math.random() * 10001)
     
     randomNumber = randomNumber
