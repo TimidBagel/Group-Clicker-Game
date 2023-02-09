@@ -166,7 +166,7 @@ function Tick() {
     if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
-
+    
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
