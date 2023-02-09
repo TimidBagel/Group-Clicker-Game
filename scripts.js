@@ -207,6 +207,15 @@ function Tick() {
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 200)
 
     }
+    for (let i = 0; i < allUpgrades.length; i++) {
+        var curUpg = allUpgrades[i];
+        if(document.getElementById(`buy_${curUpg.id}_button`)){
+            if(curUpg.count >= 1){
+                document.getElementById(`buy_${curUpg.id}_button`).disabled = "true"
+            }
+        }
+
+    }
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
         var curMod = mainPlayer.modifiers[i]
         if (curMod.time != -100) {
