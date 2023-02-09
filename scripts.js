@@ -130,7 +130,6 @@ allBuildings.push(kibbleCircle)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
 const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
-SpawnEvent(InflationEvent)
 
 //SpawnEvent(InvestmentEvent)
 function Tick() {
@@ -139,6 +138,14 @@ function Tick() {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
+
+    var randomNumber = Math.floor(Math.random() * 10001)
+
+    randomNumber = randomNumber
+    if (randomNumber == 99998) {
+        SpawnEvent(InflationEvent)
+    }
+
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
