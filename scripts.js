@@ -24,12 +24,13 @@ class Building {
 }
 
 class Upgrade { // please add all necessary upgrade components, remove comment when complete
-    constructor(cost, name, id, desc, modifier) {
+    constructor(cost, name, id, description, modifier, count) {
         this.cost = cost
         this.name = name
         this.id = id
-        this.desc = desc
+        this.description = description
         this.modifier = modifier
+        this.count = count
     }
 }
 
@@ -121,13 +122,17 @@ const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more k
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
 const investment = new Modifer("Production", "investment", 0.15, 300)
 const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
+
 const blackMarketBoost = new Modifer("Production", "A deal from the black market", 0.55, 1200)
 const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
-//const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
+
+
+const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
+
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
 //mainPlayer.modifiers.push(smallClickBoost)
-//allUpgrades.push(clickUpgrade)
+allUpgrades.push(clickUpgrade)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
@@ -224,7 +229,6 @@ function BuyBuilding(building) {
         mainPlayer.buildings.push(building)
 
         building.count++
-        building.cost += (building.cost / 100) * mainPlayer.inflation
         document.getElementById(`shop_${building.id}_count`).innerHTML = building.count
         document.getElementById(`buy_${building.id}_button`).innerHTML = `<span>$</span>${Math.round(building.cost)}`
     }
@@ -237,6 +241,9 @@ function BuyUpgrade(upgrade) {
     else {
         mainPlayer.food -= upgrade.cost
         mainPlayer.modifiers.push(upgrade.modifier)
+        upgrade.count++
+        document.getElementById(`shop_${upgrade.id}_count`).innerHTML = upgrade.count
+        document.getElementById(`buy_${upgrade.id}_button`).innerHTML = `<span>$</span>${Math.round(upgrade.cost)}`
         document.getElementById(`buy_${upgrade.id}_button`).disabled = true;
     }
 }
@@ -263,8 +270,10 @@ function GetModifier(type) {//Returns the modifier
 
 
 function Click() {
+
     mainPlayer.food += 1 + ((1 * GetModifier("Click Power")))
-}//This will be improved later  
+
+} 
 
 function ChangeTab(tab) {
     if (tab == "buildings") {
@@ -306,3 +315,20 @@ function WriteCell(newCell) {
     <button class='cell_shop_option_button_add' id='buy_${newCell.id}_button' onclick='${method}(${newCell.id})'>
     <span>$</span>${Math.round(newCell.cost)}</button></div>`
 }
+
+// Event Log Message Handling
+
+function EmitMessage(type, title, description) {
+    let eventLog = document.getElementById("cell_event_log_entries")
+    let result = '<p class="cell_event_log_entry '
+    
+    if (type == 1 || type == 2) { 
+        result += ( type == 1 ? 'cell_event_log_entry_decorator_upgrade">' : 'cell_event_log_entry_decorator_building">')
+    }
+
+    result += `<span class="cell_event_log_entry_title">${title}: </span><span class="cell_event_log_entry_description">${description}</span></p>`
+
+    eventLog.innerHTML += result
+}
+
+EmitMessage(2, 'EmitMessage [script.js]', 'Use this to send messages here!')
