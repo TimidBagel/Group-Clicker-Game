@@ -132,10 +132,10 @@ allBuildings.push(kibbleCircle)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
 const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
-
-const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
-SpawnEvent(InflationEvent)
-
+const doggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
+const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
+//SpawnEvent(BlackMarketEvent)
+SpawnEvent(doggistAttack)
 
 //SpawnEvent(InvestmentEvent)
 function Tick() {
@@ -186,8 +186,12 @@ function Tick() {
     window.setTimeout(Tick, 1)
 }
 
-function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] , stability=0} = {}) {
+function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] , stability=0, buildingsLost = 0} = {}) {
 
+    for (let i = 0; i < buildingsLost; i++) {
+        mainPlayer.buildings.pop( Math.floor(Math.random() * mainPlayer.buildings.length))
+        
+    }
     mainPlayer.inflation += inflation
     mainPlayer.food += food
     mainPlayer.foodCap += foodCap
@@ -242,14 +246,14 @@ function GetModifier(type) {//Returns the modifier
     else{
         document.getElementById(`${type}_boost_display`).style.color = "Red"
     }
-    document.getElementById(`${type}_boost_display`).innerHTML = `${Modifer*100}%`
+    document.getElementById(`${type}_boost_display`).innerHTML = `${Math.round(Modifer*100)}%`
 
     return Modifer
 }
 
 
 function Click() {
-    mainPlayer.food += 1 + ((1 / 100) * GetModifier("Click Power"))
+    mainPlayer.food += 1 + ((1 * GetModifier("Click Power")))
 }//This will be improved later  
 
 function ChangeTab(tab) {
