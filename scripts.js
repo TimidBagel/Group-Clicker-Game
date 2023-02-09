@@ -121,7 +121,7 @@ const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
-allBuildings.push(kibbleFactory)
+
 //mainPlayer.modifiers.push(smallClickBoost)
 //allUpgrades.push(clickUpgrade)
 //mainPlayer.modifiers.push(investment)
@@ -132,23 +132,22 @@ SpawnEvent(InvestmentEvent)
 const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
 SpawnEvent(RobberyEvent)
 SpawnEvent(InvestmentEvent)
-const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "", "kibblehele", 0)
-const kibbleSpire = new Building(120, 500, "Kibble Spire", "", "kibblespire", 0)
-const kibbleShip = new Building(500, 2000, "Kibble Shipment", "", "kibbleship", 0)
-const kibbleTrade = new Building(2500, 10000, "Kibble Trade Center", "", "kibbletrade", 0)
-const kibbleFound = new Building(350, 50000, "Kibble Foundry", "", "kibblefound", 0)
-const kibbleSpace = new Building(950, 200000, "Kibble Space Port", "", "kibblespace", 0)
-const kibbleNano = new Building(5000, 400000, "Kibble Nano Enterprise", "", "kibblenano", 0)
-const kibbleUniverse = new Building(7500, 1000000, "Kibble Universe Company", "", "kibbleuniverse", 0)
+const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "This kibble transportation hub is a soaring success, descending with deliciousness from the skies", "kibblehele", 0)
+const kibbleSpire = new Building(120, 500, "Kibble Spire", "Rising high and mighty, the Kibble Spire serves as a beacon of bite-sized brilliance to all creatures great and small", "kibblespire", 0)
+const kibbleShip = new Building(500, 2000, "Kibble Shipment", "A kibble powerhouse of sorts, the Kibble Shipment sets sail for uncharted territories in the quest for culinary conquest", "kibbleship", 0)
+const kibbleTrade = new Building(2500, 10000, "Kibble Trade Center", "The Kibble Trade Center serves as a hub for all things kibble, exchanging and distributing yummy morsels far and wide", "kibbletrade", 0)
+const kibbleFound = new Building(350, 50000, "Kibble Foundry Plant", "The Kibble Foundry, a marvel of modern mealtimes, forges hot and fresh kibble with industrial-grade ingredients", "kibblefound", 0)
+const kibbleSpace = new Building(950, 200000, "Kibble Space Port", "Blasting off into the great unknown, the Kibble Space Port brings intergalactic flavor to everyone around the solar system", "kibblespace", 0)
+const kibbleNano = new Building(5000, 400000, "Kibble Nano Enterprise", "The Kibble Nano Enterprise harnesses the power of nanotechnology to create custom-made kibble with precise precision", "kibblenano", 0)
 
 allBuildings.push(kibbleHele)
+allBuildings.push(kibbleFactory)
 allBuildings.push(kibbleSpire)
 allBuildings.push(kibbleShip)
 allBuildings.push(kibbleTrade)
 allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
-allBuildings.push(kibbleUniverse)
 SpawnEvent(DogInvasionEvent)
 
 function Tick() {
@@ -242,6 +241,37 @@ function GetModifier(type) {//Returns the modifier
 
 function Click() {
     mainPlayer.food += 1 + ((1 / 100) * GetModifier("Click Power"))
+    const button = document.querySelector("#cell_food_button_food");
+    const image = document.querySelector("#cell_food_image_food");
+    let isShaking = false;
+
+    button.addEventListener("click", function () {
+        if (isShaking) {
+            return;
+        }
+
+        isShaking = true;
+
+        image.style.transform = "rotate(-3deg)";
+        image.style.transform = "scaleY(1,1)";
+        setTimeout(() => {
+            image.style.transform = "rotate(3deg)";
+            image.style.transform = "scale(1.1,1.1)";
+        }, 50);
+        setTimeout(() => {
+            image.style.transform = "rotate(-3deg)";
+            image.style.transform = "scale(1.2,1.2)";
+        }, 100);
+        setTimeout(() => {
+            image.style.transform = "rotate(3deg)";
+            image.style.transform = "scale(1.1,1.1)";
+        }, 150);
+        setTimeout(() => {
+            image.style.transform = "rotate(0)";
+            image.style.transform = "scale(1,1)";
+            isShaking = false;
+        }, 200);
+    });
 }//This will be improved later  
 
 function ChangeTab(tab) {
