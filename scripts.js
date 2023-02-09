@@ -134,7 +134,6 @@ const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the 
 const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
 
 const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
-SpawnEvent(InflationEvent)
 
 
 //SpawnEvent(InvestmentEvent)
