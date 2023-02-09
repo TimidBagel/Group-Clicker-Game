@@ -18,7 +18,7 @@
                 <img id="cell_dog_image_dog" width="60px"
                     src="https://media.istockphoto.com/id/931785704/vector/paw_print.jpg?s=612x612&w=0&k=20&c=CXBPHlf7XHdJiiOULJrI9nGZjVNAj7cqnkM_eDyDdCU="
                     alt="">
-                    <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
+                <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
             </div>
             <div class="cell" id="cell_food">
                 <button id="cell_food_button_food" onclick="Click()">
@@ -41,14 +41,17 @@
                         <span>
                             <span class="cell_event_log_event_title" id="event_title">Title:</span>
                             <br>
-                            <span class="cell_event_log_event_description" id="event_description">Lorem ipsum dolor sit amet consectetur
+                            <span class="cell_event_log_event_description" id="event_description">Lorem ipsum dolor sit
+                                amet consectetur
                                 adipisicing elit. Et architecto fugit officiis nihil provident animi blanditiis rerum
                                 eius alias, quia, non commodi, atque fugiat pariatur vitae fuga sint aperiam
                                 nulla?</span>
                         </span>
 
                         <span class="cell_event_log_event_choices" id="event_options_container">
-                            <button class="cell_event_log_event_choice" onmouseover="SetActive(document.getElementById('event_tooltip_0'))", onmouseleave="Disable(document.getElementById('event_tooltip_0'))">Yes</button>
+                            <button class="cell_event_log_event_choice"
+                                onmouseover="SetActive(document.getElementById('event_tooltip_0'))" ,
+                                onmouseleave="Disable(document.getElementById('event_tooltip_0'))">Yes</button>
                             <button class="cell_event_log_event_choice">Maybe</button>
                             <button class="cell_event_log_event_choice">No</button>
                         </span>
@@ -90,17 +93,19 @@
                             qui rerum exercitationem, quae maxime facilis ut. </span>
                     </p>
                 </div>
+
             </div>
             <div class="cell" id="cell_shop">
                 <span id="cell_shop_tabs">
-                    <button class="cell_shop_tab" id="cell_shop_tab_buildings" onclick="ChangeTab('buildings')">B</button>
+                    <button class="cell_shop_tab" id="cell_shop_tab_buildings"
+                        onclick="ChangeTab('buildings')">B</button>
                     <button class="cell_shop_tab" id="cell_shop_tab_upgrades" onclick="ChangeTab('upgrades')">U</button>
-                    
+
                 </span>
                 <span id="cell_shop_options">
                     <!-- This should all be done via JavaScript 
                          This is only an example                -->
-                    
+
                 </span>
             </div>
         </div>
