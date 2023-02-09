@@ -32,18 +32,17 @@ class Upgrade { // please add all necessary upgrade components, remove comment w
     }
 }
 
-class EventOption {
-    constructor(type, foodDelta, inflationDelta, productionDelta) { // and whatever other impacts 
-        this.type = type
-        this.foodDelta = foodDelta
-        this.inflationDelta = inflationDelta
-        this.productionDelta = productionDelta
+class EventButton {
+    constructor(name, description, effects) {
+        this.name = name
+        this.description = description
+        this.effects = effects
     }
 }
 
 
-class Event{
-    constructor(title, description, options){
+class Event {
+    constructor(title, description, options) {
         this.title = title
         this.description = description
         this.options = options
@@ -51,22 +50,23 @@ class Event{
     }
 }
 //AddPlayerEffects
-function SpawnEvent(Event){
+function SpawnEvent(Event) {
     document.getElementById("event_title").innerHTML = Event.title
     document.getElementById("event_description").innerHTML = Event.description
     SetActive(document.getElementById("cell_event_log_events"))
-    var optionString = "e"//For demonstration.
+    var optionString = ""//For demonstration.
     for (let i = 0; i < Event.options.length; i++) {
         var option = Event.options[i];                                 //This is the problem error see Event-Error for details
-        optionString += `<button class="cell_event_log_event_choice", onclick="AddPlayerEffects(${option.effects}), Disable(document.getElementById('cell_event_log_events'))" onmouseover="SetActive(document.getElementById('event_tooltip_${i}'))", onmouseleave="Disable(document.getElementById('event_tooltip_${i}'))>${option.name}</button>`
+        optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"))' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
         document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
-        
-        
+
+        console.log(JSON.stringify(option.effects))
+        console.log(i)
     }
     console.log(optionString)//Logs the string with the modifications described in the for loop
-    
+
     document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
-    
+
 }
 
 
@@ -119,9 +119,10 @@ allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
 //mainPlayer.modifiers.push(smallClickBoost)
 //allUpgrades.push(clickUpgrade)
-mainPlayer.modifiers.push(investment)
+//mainPlayer.modifiers.push(investment)
 let currentTab = ""
-
+const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
+SpawnEvent(InvestmentEvent)
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -135,9 +136,9 @@ function Tick() {
     }
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
         var curMod = mainPlayer.modifiers[i]
-        if(curMod.time != -100){
+        if (curMod.time != -100) {
             curMod.time -= 0.01
-            if(curMod.time <=0){
+            if (curMod.time <= 0) {
                 mainPlayer.modifiers.pop(curMod)
             }
         }//-100 is infinite
@@ -149,10 +150,10 @@ function Tick() {
 
     // change this to only happen when buying a new building / upgrade ~ iain
     if (currentTab == "buildings") {
-        
+
     }
 
-    if (currentTab == "upgrades"){
+    if (currentTab == "upgrades") {
         // code for updating upgrade cells here
     }
 
@@ -207,20 +208,20 @@ function GetModifier(type) {//Returns the modifier
         }
 
     }
-   
+
     return Modifer
 }
 
 function Click() {
-        mainPlayer.food += 1 + ((1/100)*GetModifier("Click Power"))
+    mainPlayer.food += 1 + ((1 / 100) * GetModifier("Click Power"))
 }//This will be improved later  
 
-function ChangeTab(tab){
-    if (tab == "buildings"){
+function ChangeTab(tab) {
+    if (tab == "buildings") {
         currentTab = tab
     }
 
-    else if (tab == "upgrades"){
+    else if (tab == "upgrades") {
         currentTab = tab
     }
 
@@ -231,14 +232,14 @@ function LoadCells(tab) {
     let newHTML = ""
     let shopOptions = document.getElementById('cell_shop_options')
 
-    if (tab == "buildings"){
-        for (let i = 0; i < allBuildings.length; i++){
+    if (tab == "buildings") {
+        for (let i = 0; i < allBuildings.length; i++) {
             newHTML += WriteCell(allBuildings[i])
         }
     }
 
-    else if (tab == "upgrades"){
-        for (let i = 0; i < allUpgrades.length; i++){
+    else if (tab == "upgrades") {
+        for (let i = 0; i < allUpgrades.length; i++) {
             newHTML += WriteCell(allUpgrades[i])
         }
     }
