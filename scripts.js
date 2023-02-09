@@ -112,11 +112,13 @@ for (let i = 0; i < allUpgrades.length; i++) {
 
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
+const kibbleFactory = new Building(20, 150, "Kibble Factory", "A factory that is in a constant state of producing kibble (may not follow labour laws.)","kibblefactory", 0)
 const investment = new Modifer("Production", "investment", 0.15, 20)
 const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
+allBuildings.push(kibbleFactory)
 //mainPlayer.modifiers.push(smallClickBoost)
 //allUpgrades.push(clickUpgrade)
 //mainPlayer.modifiers.push(investment)
