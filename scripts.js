@@ -114,6 +114,7 @@ const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more k
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
 const investment = new Modifer("Production", "investment", 0.15, 20)
 const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
+const dogAttack = new Modifer("Production", "dog invasion", -0.1, 25)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
@@ -122,6 +123,7 @@ allBuildings.push(kibbleCircle)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
+const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog ainvasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Loss 5000 food", { food: -5000})])
 SpawnEvent(InvestmentEvent)
 function Tick() {
     /*console.log("hello");
