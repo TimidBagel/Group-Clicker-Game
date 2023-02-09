@@ -225,9 +225,9 @@ function BuyBuilding(building) {
     }
     else {
         mainPlayer.food -= building.cost;
+        EmitMessage(2, "Purchased Building!", `You have purchased ${building.name} for ${building.cost}.`)
         building.cost += (building.cost / 100) * mainPlayer.inflation
         mainPlayer.buildings.push(building)
-
         building.count++
         document.getElementById(`shop_${building.id}_count`).innerHTML = building.count
         document.getElementById(`buy_${building.id}_button`).innerHTML = `<span>$</span>${Math.round(building.cost)}`
