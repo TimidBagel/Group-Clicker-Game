@@ -118,8 +118,11 @@ for (let i = 0; i < allUpgrades.length; i++) {
     */
 
 
+// building template: const buildingName = new Building(production, cost, "building name", "this is the building description", "buildingId", count)
+
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
+
 const investment = new Modifer("Production", "investment", 0.15, 300)
 const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
 
@@ -129,13 +132,21 @@ const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
 
+
+const kibbleFactory = new Building(20, 150, "Kibble Factory", "A factory that is in a constant state of producing kibble (may not follow labour laws.)","kibblefactory", 0)
+
+const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
+//const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
+
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
+
 //mainPlayer.modifiers.push(smallClickBoost)
 allUpgrades.push(clickUpgrade)
 //mainPlayer.modifiers.push(investment)
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
+
 const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
 const DoggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
 const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
@@ -143,6 +154,27 @@ const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by
 //SpawnEvent(doggistAttack)
 
 //SpawnEvent(InvestmentEvent)
+
+const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
+const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 0.10}))])
+const kibbleHele = new Building(35, 150, "Kibble Helecopter Landing", "This kibble transportation hub is a soaring success, descending with deliciousness from the skies", "kibblehele", 0)
+const kibbleSpire = new Building(120, 500, "Kibble Spire", "Rising high and mighty, the Kibble Spire serves as a beacon of bite-sized brilliance to all creatures great and small", "kibblespire", 0)
+const kibbleShip = new Building(500, 2000, "Kibble Shipment", "A kibble powerhouse of sorts, the Kibble Shipment sets sail for uncharted territories in the quest for culinary conquest", "kibbleship", 0)
+const kibbleTrade = new Building(2500, 10000, "Kibble Trade Center", "The Kibble Trade Center serves as a hub for all things kibble, exchanging and distributing yummy morsels far and wide", "kibbletrade", 0)
+const kibbleFound = new Building(350, 50000, "Kibble Foundry Plant", "The Kibble Foundry, a marvel of modern mealtimes, forges hot and fresh kibble with industrial-grade ingredients", "kibblefound", 0)
+const kibbleSpace = new Building(950, 200000, "Kibble Space Port", "Blasting off into the great unknown, the Kibble Space Port brings intergalactic flavor to everyone around the solar system", "kibblespace", 0)
+const kibbleNano = new Building(5000, 400000, "Kibble Nano Enterprise", "The Kibble Nano Enterprise harnesses the power of nanotechnology to create custom-made kibble with precise precision", "kibblenano", 0)
+
+allBuildings.push(kibbleHele)
+allBuildings.push(kibbleFactory)
+allBuildings.push(kibbleSpire)
+allBuildings.push(kibbleShip)
+allBuildings.push(kibbleTrade)
+allBuildings.push(kibbleFound)
+allBuildings.push(kibbleSpace)
+allBuildings.push(kibbleNano)
+
+//>>>>>>> new-buildings-upgrades-and-events
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -270,10 +302,39 @@ function GetModifier(type) {//Returns the modifier
 
 
 function Click() {
+    mainPlayer.food += 1 + ((1* GetModifier("Click Power")))
+    const button = document.querySelector("#cell_food_button_food");
+    const image = document.querySelector("#cell_food_image_food");
+    let isShaking = false;
 
-    mainPlayer.food += 1 + ((1 * GetModifier("Click Power")))
+    button.addEventListener("click", function () {
+        if (isShaking) {
+            return;
+        }
 
-} 
+        isShaking = true;
+
+        image.style.transform = "rotate(-3deg)";
+        image.style.transform = "scaleY(1,1)";
+        setTimeout(() => {
+            image.style.transform = "rotate(3deg)";
+            image.style.transform = "scale(1.1,1.1)";
+        }, 50);
+        setTimeout(() => {
+            image.style.transform = "rotate(-3deg)";
+            image.style.transform = "scale(1.2,1.2)";
+        }, 100);
+        setTimeout(() => {
+            image.style.transform = "rotate(3deg)";
+            image.style.transform = "scale(1.1,1.1)";
+        }, 150);
+        setTimeout(() => {
+            image.style.transform = "rotate(0)";
+            image.style.transform = "scale(1,1)";
+            isShaking = false;
+        }, 200);
+    });
+}//This will be improved later  
 
 function ChangeTab(tab) {
     if (tab == "buildings") {
