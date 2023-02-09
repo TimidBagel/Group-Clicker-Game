@@ -135,7 +135,7 @@ const InflationEvent = new Event("Rising food prices", "Kibble prices are rising
 const doggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
 const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
 //SpawnEvent(BlackMarketEvent)
-SpawnEvent(doggistAttack)
+//SpawnEvent(doggistAttack)
 
 //SpawnEvent(InvestmentEvent)
 function Tick() {
@@ -149,14 +149,17 @@ function Tick() {
     
     randomNumber = randomNumber
 
-    if (randomNumber == 99998) {
+    if (randomNumber == 99998 && mainPlayer.buildings.length > 10) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 99995) {
+    if (randomNumber == 99995 && food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 99999){
+    if (randomNumber == 99994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment)){
         SpawnEvent(InvestmentEvent)
+    }
+    if(randomNumber == 99993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
+        SpawnEvent(doggistAttack)
     }
 
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
