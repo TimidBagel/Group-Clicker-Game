@@ -23,12 +23,12 @@ class Building {
 }
 
 class Upgrade { // please add all necessary upgrade components, remove comment when complete
-    constructor(cost, name, id, desc, clicks) {
+    constructor(cost, name, id, desc, modifier) {
         this.cost = cost
         this.name = name
         this.id = id
         this.desc = desc
-        this.clicks = clicks
+        this.modifier = modifier
     }
 }
 
@@ -72,10 +72,11 @@ function SpawnEvent(Event){
 
 
 class Modifer {
-    constructor(type, name, boost) {
+    constructor(type, name, boost, time) {
         this.type = type
         this.name = name
         this.boost = boost
+        this.time = time
     }
 }
 
@@ -111,11 +112,14 @@ for (let i = 0; i < allUpgrades.length; i++) {
 
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
-const investment = new Modifer("Production", "investment", 0.15)
-
+const investment = new Modifer("Production", "investment", 0.15, 20)
+const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
+//const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
-
+//mainPlayer.modifiers.push(smallClickBoost)
+//allUpgrades.push(clickUpgrade)
+mainPlayer.modifiers.push(investment)
 let currentTab = ""
 
 function Tick() {
@@ -127,6 +131,16 @@ function Tick() {
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
+
+    }
+    for (let i = 0; i < mainPlayer.modifiers.length; i++) {
+        var curMod = mainPlayer.modifiers[i]
+        if(curMod.time != -100){
+            curMod.time -= 0.01
+            if(curMod.time <=0){
+                mainPlayer.modifiers.pop(curMod)
+            }
+        }//-100 is infinite
 
     }
 
@@ -180,7 +194,7 @@ function BuyUpgrade(upgrade) {
     }
     else {
         mainPlayer.food -= upgrade.cost
-        mainPlayer.upgrades.push(upgrade)
+        mainPlayer.modifiers.push(upgrade.modifier)
         document.getElementById(`buy_${upgrade.id}_button`).disabled = true;
     }
 }
@@ -193,23 +207,12 @@ function GetModifier(type) {//Returns the modifier
         }
 
     }
-    if (Modifer == 0) {
-        Modifer = 1
-    }
-
+   
     return Modifer
 }
 
 function Click() {
-    var clicks = 1
-        for (let i = 0; i < mainPlayer.upgrades.length; i++) {//Check for upgrades, add click amount from upgrade
-            var curUpg = mainPlayer.upgrades[i]
-            if (mainPlayer.upgrades.length >= 1) {
-                var curUpgClicks = curUpg.clicks
-                clicks = curUpgClicks + 1
-            }
-        }
-        mainPlayer.food += clicks
+        mainPlayer.food += 1 + ((1/100)*GetModifier("Click Power"))
 }//This will be improved later  
 
 function ChangeTab(tab){
