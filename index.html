@@ -6,47 +6,105 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Clicker Game</title>
-    <script src="scripts.js"></script>
+    <script defer src="scripts.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body onload="Tick()">
-    <!-- all this is temporary. delete when merged with Ben's HTML ~ Iain -->
-    <button onclick="Click()" , style="text-align: center;">Click Me!</button>
-    <p id="currentfood_counter"></p>
-    <button style="text-align: center;" , id="buy_kibbleserf_button" , onclick="BuyBuilding(kibbleSerf)"></button>
-    <br>
-    <button style="text-align: center;" , id="buy_kibblecircle_button" , onclick="BuyBuilding(kibbleCircle)"></button>
-    <br>
-    <p style="text-align: center;" , id="buy_kibblecircle_button" , onclick="BuyBuilding(kibbleCircle)"></p>
-    <button style="text-align: center;" , id="buy_foodclick_button" , onclick="BuyUpgrade(foodClick)"></button>
-    
-    <!-- Temporary events, will be improved later -->
-    <div style="padding-left: 15%; padding-right: 15%; display: none;" id="investmentorgift_event">
-        <div style="background-color: bisque; border-radius: 10%;">
 
-            <h2 style="text-align: center;">Getting Noticed</h2>
-            <p class="mainText">Your Efforts to Feed the Dog are getting noticed by some large companies. They are
-                excited to support an up-and-coming entrepreneur, and would like to strike a deal</p>
-            <div style="display: grid; grid-template-columns: auto auto;column-gap: 25px;">
-                <button onmouseenter="SetActive(document.getElementById(`investmentorgift_event_gift_tooltip`))"
-                    onmouseleave="Disable(document.getElementById(`investmentorgift_event_gift_tooltip`))"
-                    onclick="AddPlayerEffects({food:1345}), Disable(document.getElementById(`investmentorgift_event`))">Request
-                    a Donation</button>
-                <button onmouseenter="SetActive(document.getElementById(`investmentorgift_event_investment_tooltip`))"
-                    onmouseleave="Disable(document.getElementById(`investmentorgift_event_investment_tooltip`))"
-                    onclick="AddPlayerEffects({modifiers:[investment]}), Disable(document.getElementById(`investmentorgift_event`))">Request
-                    an Investment</button>
+    <span id="wrapper"> <!-- Wrapper is simply the application window -->
+        <div id="game"> <!-- Game is where our games wrapper -->
+            <div class="cell" id="cell_dog">
+                <img id="cell_dog_image_dog" width="60px"
+                    src="https://media.istockphoto.com/id/931785704/vector/paw_print.jpg?s=612x612&w=0&k=20&c=CXBPHlf7XHdJiiOULJrI9nGZjVNAj7cqnkM_eDyDdCU="
+                    alt="">
+                    <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
             </div>
-            <p style="display: none; color: green;" class="mainText" id="investmentorgift_event_gift_tooltip">Gain 1345
-                food</p>
-            <p style="display: none; color:green" class="mainText" id="investmentorgift_event_investment_tooltip">Gain
-                <b>Small Investment Which Grants</b><br>+15% Production</p>
+            <div class="cell" id="cell_food">
+                <button id="cell_food_button_food" onclick="Click()">
+                    <img src="https://media.istockphoto.com/id/1148854779/vector/apple.jpg?s=612x612&w=0&k=20&c=MjPwHjAi5RzGUxLnVuPOyljykRM4f9k43qFmRMjtfV8="
+                        alt="" id="cell_food_image_food">
+                </button>
+                <div id="cell_food_stats">
+                    <span id="cell_food_stat_cps" class="cell_food_stat">CPS: <span
+                            id="cell_food_stat_cps_value">0</span></span>
+                    <span id="cell_food_stat_apc" class="cell_food_stat">APC: <span
+                            id="cell_food_stat_apc_value">0</span></span>
+                    <span id="cell_food_stat_food" class="cell_food_stat">Food: <span
+                            id="cell_food_stat_food_value">0</span></span>
+                </div>
+            </div>
+            <!-- Event defs go here-->
+            <div class="cell" id="cell_event_log">
+                <div id="cell_event_log_events">
+                    <span class="cell_event_log_event">
+                        <span>
+                            <span class="cell_event_log_event_title" id="event_title">Title:</span>
+                            <br>
+                            <span class="cell_event_log_event_description" id="event_description">Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Et architecto fugit officiis nihil provident animi blanditiis rerum
+                                eius alias, quia, non commodi, atque fugiat pariatur vitae fuga sint aperiam
+                                nulla?</span>
+                        </span>
 
+                        <span class="cell_event_log_event_choices" id="event_options_container">
+                            <button class="cell_event_log_event_choice" onmouseover="SetActive(document.getElementById('event_tooltip_0'))", onmouseleave="Disable(document.getElementById('event_tooltip_0'))">Yes</button>
+                            <button class="cell_event_log_event_choice">Maybe</button>
+                            <button class="cell_event_log_event_choice">No</button>
+                        </span>
+                        <p id="event_tooltip_0" style="display: none; text-align: center;">TestTooltip</p>
+                        <p id="event_tooltip_1" style="display: none; text-align: center;">TestTooltip2</p>
+                        <p id="event_tooltip_2" style="display: none; text-align: center;">TestTooltip3</p>
+                    </span>
+                </div>
+
+                <div id="cell_event_log_entries">
+                    <!-- All event entries must go here-->
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_upgrade">
+                        <span class="cell_event_log_entry_title">Upgrade Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur,
+                            adipisicing elit. </span>
+                    </p>
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_building">
+                        <span class="cell_event_log_entry_title">Building Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit Impedit, ad numquam.
+                            Cupiditate quo inventore laboriosam placeat molestias unde suscipit dolor, error minus optio
+                            qui rerum exercitationem, quae maxime facilis ut. </span>
+                    </p>
+                    <p class="cell_event_log_entry">
+                        <span class="cell_event_log_entry_title">Event:</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur
+                            adipisicing elit. Impedit, ad numquam. Cupiditate quo inventore laboriosam placeat molestias
+                            unde suscipit dolor, error minus optio qui rerum exercitationem, quae maxime facilis ut.
+                        </span>
+                    </p>
+                    <p class="cell_event_log_entry cell_event_log_entry_decorator_upgrade">
+                        <span class="cell_event_log_entry_title">Upgrade Bought!</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit amet consectetur,
+                            adipisicing elit. </span>
+                    </p>
+                    <p class="cell_event_log_entry">
+                        <span class="cell_event_log_entry_title">Event:</span>
+                        <span class="cell_event_log_entry_description">Lorem ipsum dolor sit Impedit, ad numquam.
+                            Cupiditate quo inventore laboriosam placeat molestias unde suscipit dolor, error minus optio
+                            qui rerum exercitationem, quae maxime facilis ut. </span>
+                    </p>
+                </div>
+            </div>
+            <div class="cell" id="cell_shop">
+                <span id="cell_shop_tabs">
+                    <button class="cell_shop_tab" id="cell_shop_tab_buildings" onclick="ChangeTab('buildings')">B</button>
+                    <button class="cell_shop_tab" id="cell_shop_tab_upgrades" onclick="ChangeTab('upgrades')">U</button>
+                    
+                </span>
+                <span id="cell_shop_options">
+                    <!-- This should all be done via JavaScript 
+                         This is only an example                -->
+                    
+                </span>
+            </div>
         </div>
-
-    </div>
-
+    </span>
 
 </body>
 

@@ -12,11 +12,13 @@ class Player {
 const mainPlayer = new Player();
 
 class Building {
-    constructor(production, cost, name, id) {
+    constructor(production, cost, name, description, id, count) {
         this.production = production
         this.cost = cost
         this.name = name
+        this.description = description
         this.id = id
+        this.count = count
     }
 }
 
@@ -39,13 +41,34 @@ class EventOption {
     }
 }
 
-class Event { // add all necessary event components
-    constructor(name, description, options) {
-        this.name = name
-        this.severity = description
-        this.options = options // pass in a list of option names
+
+class Event{
+    constructor(title, description, options){
+        this.title = title
+        this.description = description
+        this.options = options
+
     }
 }
+//AddPlayerEffects
+function SpawnEvent(Event){
+    document.getElementById("event_title").innerHTML = Event.title
+    document.getElementById("event_description").innerHTML = Event.description
+    SetActive(document.getElementById("cell_event_log_events"))
+    var optionString = "e"//For demonstration.
+    for (let i = 0; i < Event.options.length; i++) {
+        var option = Event.options[i];                                 //This is the problem error see Event-Error for details
+        optionString += `<button class="cell_event_log_event_choice", onclick="AddPlayerEffects(${option.effects}), Disable(document.getElementById('cell_event_log_events'))" onmouseover="SetActive(document.getElementById('event_tooltip_${i}'))", onmouseleave="Disable(document.getElementById('event_tooltip_${i}'))>${option.name}</button>`
+        document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
+        
+        
+    }
+    console.log(optionString)//Logs the string with the modifications described in the for loop
+    
+    document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
+    
+}
+
 
 
 class Modifer {
@@ -65,40 +88,9 @@ function Disable(div) {
 
 const allBuildings = []
 const allUpgrades = []
-const kibbleSerf = new Building(1, 5, "Kibble Serf", "kibbleserf")
-const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "kibblecircle")
-const foodClick = new Upgrade(100, "Food Click (working title)", "foodclick", "permanently increases food per click by", 1)
-const investment = new Modifer("Production", "investment", 0.15)
-allBuildings.push(kibbleCircle)
-allBuildings.push(kibbleSerf)
-allUpgrades.push(foodClick)
 
-function Tick() {
-    if (!mainPlayer.modifiers.includes(investment)) {
-        SetActive(document.getElementById("investmentorgift_event"))
-    }//This is a temporary event trigger to test the event.
-    //Produce food from buildings
-    for (let i = 0; i < mainPlayer.buildings.length; i++) {
-        var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 500) + (((curBuil.production) * GetModifier("Production")) / 500)
-        //When we add modifers we can modify this number and stuff ~K
-
-    }
-    document.getElementById("currentfood_counter").innerHTML = `You have ${Math.round(mainPlayer.food)} food`
-    //Sets Shop text
-    for (let i = 0; i < allBuildings.length; i++) {
-        var curBuil = allBuildings[i]
-        var amtOfBuilding = 0
-        for (let e = 0; e < mainPlayer.buildings.length; e++) {
-            var curPlayerBuil = mainPlayer.buildings[e]
-            if (curBuil.name == curPlayerBuil.name) {
-                amtOfBuilding += 1
-            }
-
-        } // counter should be on serperate element. CHANGE THIS LATER!! ~ Iain
-        document.getElementById(`buy_${curBuil.id}_button`).innerHTML = `Buy ${curBuil.name}: ${Math.round((curBuil.cost))} Food<br>You have ${amtOfBuilding} ${curBuil.name}(s)`//I can figure out getting the number from the player later this is just the simples ~K
-    }
-    for (let i = 0; i < allUpgrades.length; i++) {
+/*
+for (let i = 0; i < allUpgrades.length; i++) {
         var curUpg = allUpgrades[i]
         var haveUpgrade = 0
         for (let e = 0; e < mainPlayer.upgrades.length; e++) {
@@ -111,6 +103,46 @@ function Tick() {
         document.getElementById(`buy_${curUpg.id}_button`).innerHTML = `Buy ${curUpg.name}: ${Math.round((curUpg.cost))} Food<br>This upgrade ${curUpg.desc} ${curUpg.clicks}.`
     }
     window.setTimeout(Tick, 2)
+
+    const foodClick = new Upgrade(100, "Food Click (working title)", "foodclick", "permanently increases food per click by", 1)
+
+    */
+
+
+const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
+const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
+const investment = new Modifer("Production", "investment", 0.15)
+
+allBuildings.push(kibbleSerf)
+allBuildings.push(kibbleCircle)
+
+let currentTab = ""
+
+function Tick() {
+    /*console.log("hello");
+    if (!mainPlayer.modifiers.includes(investment)) {
+        SetActive(document.getElementById("investmentorgift_event"))
+    }//This is a temporary event trigger to test the event.*/
+    //Produce food from buildings
+    for (let i = 0; i < mainPlayer.buildings.length; i++) {
+        var curBuil = mainPlayer.buildings[i]
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production) * GetModifier("Production")) / 1000)
+
+    }
+
+    document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
+    //Sets Shop text
+
+    // change this to only happen when buying a new building / upgrade ~ iain
+    if (currentTab == "buildings") {
+        
+    }
+
+    if (currentTab == "upgrades"){
+        // code for updating upgrade cells here
+    }
+
+    window.setTimeout(Tick, 1)
 }
 
 function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] } = {}) {
@@ -134,6 +166,11 @@ function BuyBuilding(building) {
         mainPlayer.food -= building.cost;
         building.cost += (building.cost / 100) * mainPlayer.inflation
         mainPlayer.buildings.push(building)
+
+        building.count++
+        building.cost += (building.cost / 100) * mainPlayer.inflation
+        document.getElementById(`shop_${building.id}_count`).innerHTML = building.count
+        document.getElementById(`buy_${building.id}_button`).innerHTML = `<span>$</span>${Math.round(building.cost)}`
     }
 }
 
@@ -174,3 +211,44 @@ function Click() {
         }
         mainPlayer.food += clicks
 }//This will be improved later  
+
+function ChangeTab(tab){
+    if (tab == "buildings"){
+        currentTab = tab
+    }
+
+    else if (tab == "upgrades"){
+        currentTab = tab
+    }
+
+    LoadCells(currentTab)
+}
+
+function LoadCells(tab) {
+    let newHTML = ""
+    let shopOptions = document.getElementById('cell_shop_options')
+
+    if (tab == "buildings"){
+        for (let i = 0; i < allBuildings.length; i++){
+            newHTML += WriteCell(allBuildings[i])
+        }
+    }
+
+    else if (tab == "upgrades"){
+        for (let i = 0; i < allUpgrades.length; i++){
+            newHTML += WriteCell(allUpgrades[i])
+        }
+    }
+
+    shopOptions.innerHTML = newHTML
+}
+
+function WriteCell(newCell) {
+    let method = newCell instanceof Building ? 'BuyBuilding' : 'BuyUpgrade'
+    return `<div class='cell_shop_option' id='cell_shop_option_${newCell.id}'>
+    <p class='cell_shop_option_title'>${newCell.name}</p>
+    <p class='cell_shop_option_description'>${newCell.description}</p>
+    <span class='cell_shop_option_cound' id='shop_${newCell.id}_count'>${newCell.count}</span>
+    <button class='cell_shop_option_button_add' id='buy_${newCell.id}_button' onclick='${method}(${newCell.id})'>
+    <span>$</span>${Math.round(newCell.cost)}</button></div>`
+}
