@@ -164,7 +164,7 @@ function Tick() {
         SpawnEvent(InvestmentEvent)
     }
     if(randomNumber == 99993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
-        SpawnEvent(doggistAttack)
+        SpawnEvent(DoggistAttack)
     }
 
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
