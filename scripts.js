@@ -133,7 +133,7 @@ const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
 
 
-const kibbleFactory = new Building(20, 150, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblefactory", 0)
+const kibblePortal = new Building(20, 150, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblePortal", 0)
 
 const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
@@ -169,7 +169,7 @@ const kibbleSpace = new Building(950, 200000, "Kibble Altar", "Turns blood into 
 const kibbleNano = new Building(5000, 400000, "Kibblethullu", "A terrifying creature from the depths, only bound by a weak seal hastily fabricated. Who cares about impending doom when you can have kibble?", "kibbleNano", 0)
 
 allBuildings.push(kibbleHele)
-allBuildings.push(kibbleFactory)
+allBuildings.push(kibblePortal)
 allBuildings.push(kibbleSpire)
 allBuildings.push(kibbleShip)
 allBuildings.push(kibbleTrade)
@@ -185,20 +185,20 @@ function Tick() {
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
 
-    var randomNumber = Math.floor(Math.random() * 10001)
+    var randomNumber = Math.floor(Math.random() * 100001)
     
     randomNumber = randomNumber
 
-    if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
+    if (randomNumber == 99998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 9995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
+    if (randomNumber == 99995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
+    if (randomNumber == 99994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
         SpawnEvent(InvestmentEvent)
     }
-    if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
+    if(randomNumber == 99993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
     
