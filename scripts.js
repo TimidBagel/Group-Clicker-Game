@@ -391,38 +391,44 @@ function Click() {
 }//This will be improved later  
 
 function ChangeTab(tab) {
+//  - changes current tab variable based on string passed to method by button on webpage
     if (tab == "buildings") {
         currentTab = tab
-    }
-
-    else if (tab == "upgrades") {
+    } else if (tab == "upgrades") {
         currentTab = tab
     }
 
     LoadCells(currentTab)
 }
 
+// displays building or upgrade cells in shop area
 function LoadCells(tab) {
     let newHTML = ""
     let shopOptions = document.getElementById('cell_shop_options')
 
+//  - cycles through buildings, adds HTML template based on building class to newHTML string
     if (tab == "buildings") {
         for (let i = 0; i < allBuildings.length; i++) {
             newHTML += WriteCell(allBuildings[i])
         }
     }
 
+//  - cycles through upgrades, adds HTML template based on upgrade class to newHTML string
     else if (tab == "upgrades") {
         for (let i = 0; i < allUpgrades.length; i++) {
             newHTML += WriteCell(allUpgrades[i])
         }
     }
 
-    shopOptions.innerHTML = newHTML
+//  - sets shop options area HTML to newHTML string
+    shopOptions.innerHTML = newHTML 
 }
 
+// writes cell data to a html template
 function WriteCell(newCell) {
-    let method = newCell instanceof Building ? 'BuyBuilding' : 'BuyUpgrade'
+//  - decides whether to call BuyBuilding() or BuyUpgrade() when purchase button clicked
+    let method = newCell instanceof Building ? 'BuyBuilding' : 'BuyUpgrade' 
+//  - returns cell html template based on the newCell properties
     return `<div class='cell_shop_option' id='cell_shop_option_${newCell.id}'>
     <p class='cell_shop_option_title'>${newCell.name}</p>
     <p class='cell_shop_option_description'>${newCell.description}</p>
