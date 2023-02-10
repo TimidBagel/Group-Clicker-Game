@@ -78,29 +78,36 @@ class Event {
 
 // reveals an event in the event space
 function SpawnEvent(Event) {
-    document.getElementById("event_title").innerHTML = Event.title // sets element to the event title
-    document.getElementById("event_description").innerHTML = Event.description // sets element to event description
+    if(!hasActiveEvent){
+        document.getElementById("event_title").innerHTML = Event.title // sets element to the event title
+        document.getElementById("event_description").innerHTML = Event.description // sets element to event description
 
-    SetActive(document.getElementById("cell_event_log_events"), false) // reveals the event element
+        SetActive(document.getElementById("cell_event_log_events"), false) // reveals the event element
 
-    var optionString = ""//For demonstration.
-    for (let i = 0; i < Event.options.length; i++) {
-        var option = Event.options[i];
+        var optionString = ""//For demonstration.
+        for (let i = 0; i < Event.options.length; i++) {
+            var option = Event.options[i];
 
-        optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' 
-        onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' 
-        onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' 
-        onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
+            optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' 
+            onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' 
+            onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' 
+            onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
 
-        // sets tooltip as option description
-        document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
-
-        //console.log(JSON.stringify(option.effects))
-        //console.log(i)
+            // sets tooltip as option description
+            document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
+            autoResFX = option.effects
+        }
+        document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
     }
-    //console.log(optionString)//Logs the string with the modifications described in the for loop
+}
 
-    document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
+autoResFX = {}
+
+function AutoResolveEffect(){
+    AddPlayerEffects(autoResFX)
+    Disable(document.getElementById("cell_event_log_events"))
+    hasActiveEvent = false
+    autoResFX = {}
 
 }
 
@@ -145,6 +152,8 @@ mainPlayer.modifiers.push(BaseDecay)
 
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
+
+hasActiveEvent = false
 
 allUpgrades.push(clickUpgrade)
 
@@ -194,12 +203,23 @@ function CheckModifier(modifer){
         return false
     }
 }
+autoResTime = 0
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
+    if(hasActiveEvent){
+        autoResTime += 0.01
+    }
+    else{
+        autoResTime = 0
+    }
+    if(autoResTime >= 20){
+        autoResTime = 0
+        AutoResolveEffect()
+    }
     document.getElementById("cell_dog_range_food").value = mainDog.fullness
     if(mainDog.fullness > 0){
         mainDog.fullness -= 0.00001 + (0.001 * GetModifier("Decay Rate"))
@@ -210,7 +230,7 @@ function Tick() {
     }
     //Event Checkers
     //#region Event Checkers
-    var randomNumber = Math.floor(Math.random() * 1001)
+    var randomNumber = Math.floor(Math.random() * 10001)
     
     //randomNumber = randomNumber
 
@@ -221,7 +241,7 @@ function Tick() {
         SpawnEvent(BlackMarketEvent)
     }
     if(mainPlayer.buildings.length > 5 && !CheckModifier(investment) && mainPlayer.food <1000){
-        if (randomNumber == 994){
+        if (randomNumber == 9994){
             SpawnEvent(InvestmentEvent)
         }
     }
@@ -232,13 +252,19 @@ function Tick() {
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
         SpawnEvent(DogInvasionEvent)
     }
+    document.getElementById("cell_food_stat_apc").innerHTML =  `APC: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
+    
+    
     //#endregion
     //End of event checkers
+    var APS = 0
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
+        APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*100
 
     }
+    document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${Math.round(APS*10)/10}`
     for (let i = 0; i < allUpgrades.length; i++) {
         var curUpg = allUpgrades[i];
         if(document.getElementById(`buy_${curUpg.id}_button`)){
