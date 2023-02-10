@@ -290,7 +290,7 @@ function Tick() {
         APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*100
 
     }
-    document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${APS}`
+    document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${Math.round(APS*10)/10}`
     for (let i = 0; i < allUpgrades.length; i++) {
         var curUpg = allUpgrades[i];
         if(document.getElementById(`buy_${curUpg.id}_button`)){
