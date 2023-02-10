@@ -98,6 +98,7 @@ function SpawnEvent(Event) {
 }
 autoResFX = {}
 function AutoResolveEffect(){
+    EmitMessage(0, JSON.stringify(autoResFX))
     AddPlayerEffects(autoResFX)
     Disable(document.getElementById("cell_event_log_events"))
     hasActiveEvent = false
@@ -230,6 +231,7 @@ function CheckModifier(modifer){
     }
 }
 autoResTime = 0
+hasWon = false
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -242,18 +244,27 @@ function Tick() {
     else{
         autoResTime = 0
     }
-    if(autoResTime >= 20){
+    if(autoResTime >= 60){
         autoResTime = 0
         AutoResolveEffect()
     }
     document.getElementById("cell_dog_range_food").value = mainDog.fullness
-    if(mainDog.fullness > 0){
-        mainDog.fullness -= 0.00001 + (0.001 * GetModifier("Decay Rate"))
+    if(mainDog.fullness <100){
+        if(mainDog.fullness > 0){
+            mainDog.fullness -= 0.00001 + (0.001 * GetModifier("Decay Rate"))
+        }
+        
+        if(mainDog.feedAmount > 10){
+            mainDog.feedAmount -= 0.0008
+        }
     }
+    if(!hasWon && mainDog.fullness >= 100){
+        hasWon = true
+        alert("You have defeated the dog! Relish in your victory because you had the grit to win before we balanced stuff!")
+    }
+
     
-    if(mainDog.feedAmount > 10){
-        mainDog.feedAmount -= 0.0008
-    }
+
     //Event Checkers
     //#region Event Checkers
     var randomNumber = Math.floor(Math.random() * 10001)
@@ -286,7 +297,7 @@ function Tick() {
     var APS = 0
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/1000) * GetModifier("Production")))
         APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*100
 
     }
