@@ -1,6 +1,6 @@
 class Player {
     constructor(food, buildings, modifiers, upgrades, foodCap) {
-        this.food = 100
+        this.food = 0
         this.buildings = []
         this.upgrades = []
         this.modifiers = []
