@@ -79,6 +79,7 @@ class Event {
 // reveals an event in the event space
 function SpawnEvent(Event) {
     if(!hasActiveEvent){
+        hasActiveEvent = true
         document.getElementById("event_title").innerHTML = Event.title // sets element to the event title
         document.getElementById("event_description").innerHTML = Event.description // sets element to event description
 
@@ -110,8 +111,6 @@ function AutoResolveEffect(){
     autoResFX = {}
 
 }
-
-
 
 class Modifer {
     constructor(type, name, boost, time) {
