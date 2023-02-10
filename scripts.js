@@ -228,7 +228,7 @@ function Tick() {
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5)){
         SpawnEvent(DogInvasionEvent)
     }
-    if(randomNumber == 9990 && (mainPlayer.stability < 70 && mainPlayer.food > 4000)){
+    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000)){
         SpawnEvent(ScientistEvent)
     }
     if(randomNumber == 9991 && (mainPlayer.stability < 45 && mainPlayer.food > 3500)){
