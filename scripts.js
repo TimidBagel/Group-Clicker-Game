@@ -150,13 +150,14 @@ const BaseDecay = new Modifer("Decay Rate", "The base Decay rate", 1, -100)
 
 const smallProductBoost = new Modifer("Production", "Small Production Boost", 0.1, -100)
 const productClick = new Modifer("Click Percent", "Power Of Kibble", 0.05, -100) //not working yet
-
+const largeProductBoost = new Modifer("Production", "Kibble Aura", 2, -100)
 mainPlayer.modifiers.push(BaseDecay)
 
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
 const productUpgrade = new Upgrade(1000, "Small Production Boost", "productUpgrade", "Increase Production by 10%", smallProductBoost, 0)
 const clickPower = new Upgrade(10000, "The Power of Kibble", "clickPower", "Increase APC by 5% of APS", productClick) //not working yet
+const kibbleAura = new Upgrade(50000, "Kibble Aura", "kibbleAura", "This powerful aura is powerful enough to increase the production of kibble by 200% (warning: soul may be sold to aquire such power)", largeProductBoost, 0)
 
 
 const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
@@ -164,6 +165,8 @@ hasActiveEvent = false
 
 allUpgrades.push(clickUpgrade)
 allUpgrades.push(productUpgrade)
+allUpgrades.push(kibbleAura)
+
 
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
