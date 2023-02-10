@@ -278,14 +278,19 @@ function Tick() {
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
         SpawnEvent(DogInvasionEvent)
     }
-    document.getElementById("cell_food_stat_apc").innerHTML =  `Apc: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
+    document.getElementById("cell_food_stat_apc").innerHTML =  `APC: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
+    
+    
     //#endregion
     //End of event checkers
+    var APS = 0
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
+        APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*100
 
     }
+    document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${APS}`
     for (let i = 0; i < allUpgrades.length; i++) {
         var curUpg = allUpgrades[i];
         if(document.getElementById(`buy_${curUpg.id}_button`)){
