@@ -288,7 +288,7 @@ function Tick() {
         SpawnEvent(DogInvasionEvent)
     }
 //<<<<<<< mods-and-events-dog
-    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000)){
+    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000 && !CheckModifier(ScienceReduction))){
         SpawnEvent(ScientistEvent)
     }
     if(randomNumber == 9991 && (mainPlayer.stability < 45 && mainPlayer.food > 3500)){
