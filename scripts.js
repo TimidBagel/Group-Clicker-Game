@@ -1,11 +1,11 @@
 class Player {
-    constructor(food, buildings, modifiers, upgrades, foodCap) {
+    constructor(food, buildings, modifiers, upgrades) {//Will be used for Save/Load
         this.food = 0
         this.buildings = []
         this.upgrades = []
         this.modifiers = []
-        this.upgrades = []
-        this.foodCap = 20000 //Temporary, this number will be balanced.
+        
+        //this.foodCap = 20000 //Temporary, this number will be balanced.
         this.inflation = 12
         this.stability = 80
     }
@@ -43,7 +43,7 @@ class Building {
         this.name = name
         this.description = description
         this.id = id
-        this.count = count
+        this.count = count //Number owned by the player
     }
 }
 
@@ -77,19 +77,19 @@ class Event {
 }
 
 // reveals an event in the event space
-function SpawnEvent(Event) {
+function SpawnEvent(event) {
     if(!hasActiveEvent){
         hasActiveEvent = true
-        document.getElementById("event_title").innerHTML = Event.title // sets element to the event title
-        document.getElementById("event_description").innerHTML = Event.description // sets element to event description
+        document.getElementById("event_title").innerHTML = event.title // sets element to the event title
+        document.getElementById("event_description").innerHTML = event.description // sets element to event description
 
         SetActive(document.getElementById("cell_event_log_events"), false) // reveals the event element
+        //Creates and sets the button data
+        var optionString = ""
+        for (let i = 0; i < event.options.length; i++) {
+            var option = event.options[i];
 
-        var optionString = ""//For demonstration.
-        for (let i = 0; i < Event.options.length; i++) {
-            var option = Event.options[i];
-
-            optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' 
+            optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)}), hasActiveEvent=false' 
             onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' 
             onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' 
             onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
@@ -113,12 +113,12 @@ function AutoResolveEffect(){
 
 }
 
-class Modifer {
+class Modifier { 
     constructor(type, name, boost, time) {
         this.type = type
         this.name = name
         this.boost = boost
-        this.time = time
+        this.time = time// -100 is infinite
     }
 }
 
@@ -142,23 +142,23 @@ const allUpgrades = []
 
 
 
-const investment = new Modifer("Production", "investment", 0.15, 300)
-const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.45, -100)
-const blackMarketBoost = new Modifer("Production", "A deal from the black market", 0.55, 1200)
-const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
-const BaseDecay = new Modifer("Decay Rate", "The base Decay rate", 1, -100)
+const investment = new Modifier("Production", "investment", 0.15, 300)
+const smallClickBoost = new Modifier("Click Power", "Small Click Power Boost", 0.45, -100)
+const blackMarketBoost = new Modifier("Production", "A deal from the black market", 0.55, 1200)
+const policeClot = new Modifier("Production", "policeClot", -0.05, 300)
+const baseDecay = new Modifier("Decay Rate", "The base Decay rate", 1, -100)
 //<<<<<<< mods-and-events-dog
-const ScienceReduction = new Modifer("Decay Rate", "GMO", -0.2, -100)
+const scienceReduction = new Modifier("Decay Rate", "GMO", -0.2, -100)
 //=======
 
-const smallProductBoost = new Modifer("Production", "Small Production Boost", 0.1, -100)
-const productClick = new Modifer("Click Percent", "Power Of Kibble", 0.05, -100) //not working yet
-const largeProductBoost = new Modifer("Production", "Kibble Aura", 2, -100)
+const smallProductBoost = new Modifier("Production", "Small Production Boost", 0.1, -100)
+const productClick = new Modifier("Click Percent", "Power Of Kibble", 0.05, -100) //not working yet
+const largeProductBoost = new Modifier("Production", "Kibble Aura", 2, -100)
 
 
 //>>>>>>> beta
 
-mainPlayer.modifiers.push(BaseDecay)
+mainPlayer.modifiers.push(baseDecay)
 
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
@@ -167,7 +167,7 @@ const clickPower = new Upgrade(10000, "The Power of Kibble", "clickPower", "Incr
 const kibbleAura = new Upgrade(50000, "Kibble Aura", "kibbleAura", "This powerful aura is powerful enough to increase the production of kibble by 200% (warning: soul may be sold to aquire such power)", largeProductBoost, 0)
 
 
-const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
+const dogAttack = new Modifier("Production", "dog invasion", -0.1, 420)
 hasActiveEvent = false
 
 allUpgrades.push(clickUpgrade)
@@ -176,14 +176,14 @@ allUpgrades.push(kibbleAura)
 
 
 let currentTab = ""
-const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
-const InflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
-const DoggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
-const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
-const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
+const investmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
+const inflationEvent = new Event("Rising food prices", "Kibble prices are rising globally, in no small part caused by your efforts to eliminate the dog. This could make expansion difficult", [new EventButton("Consolidate food and hope for the worst!", "Gain 3500 food<br>Gain 20% inflation", {food:3500, inflation:20}), new EventButton("Nothing I can do...", "Gain 10% inflation", {inflation:10}), new EventButton("Use wealth of food to support the industry", "Lose 1500 food<br> Gain 5% inflation", {food:-1500, inflation:5})])
+const doggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
+const blackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
+const dogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
 //<<<<<<< mods-and-events-dog
-const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({stability: -20}))])
-const ScientistEvent = new Event("A scientist has approached you, and wants to research the dog.", [new EventButton("Accept his offer", "-5 feed amount. +2 decay rate.", {modifiers: [ScienceReduction], feedAmount: -5})], new EventButton("Decline his offer.", "Declines the offer!", {}))
+const robberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({stability: -20}))])
+const scientistEvent = new Event("A scientist has approached you, and wants to research the dog.", [new EventButton("Accept his offer", "-5 feed amount. +2 decay rate.", {modifiers: [scienceReduction], feedAmount: -5})], new EventButton("Decline his offer.", "Declines the offer!", {}))
 
 
 //=======
@@ -213,11 +213,11 @@ allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 
-function CheckModifier(modifer){
+function CheckModifier(modifier){
     var isTrue = false
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
         const curMod = mainPlayer.modifiers[i]
-        if(curMod.name == modifer.name&& curMod.type==modifer.type && curMod.boost == modifer.boost){
+        if(curMod.name == modifier.name&& curMod.type==modifier.type && curMod.boost == modifier.boost){
             return true
         }
         else{
@@ -268,49 +268,52 @@ function Tick() {
     //#region Event Checkers
     var randomNumber = Math.floor(Math.random() * 10001)
 
-
+    
     if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
-        SpawnEvent(InflationEvent)
+        SpawnEvent(inflationEvent)
     }
     if (randomNumber == 9995 && mainPlayer.food > 500 && !CheckModifier(blackMarketBoost) && !CheckModifier(policeClot)) {
-        SpawnEvent(BlackMarketEvent)
+        SpawnEvent(blackMarketEvent)
     }
     if(mainPlayer.buildings.length > 5 && !CheckModifier(investment) && mainPlayer.food <1000){
         if (randomNumber == 9994){
-            SpawnEvent(InvestmentEvent)
+            SpawnEvent(investmentEvent)
         }
     }
     
     if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
-        SpawnEvent(DoggistAttack)
+        SpawnEvent(doggistAttack)
     }
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
-        SpawnEvent(DogInvasionEvent)
+        SpawnEvent(dogInvasionEvent)
     }
 //<<<<<<< mods-and-events-dog
-    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000 && !CheckModifier(ScienceReduction))){
-        SpawnEvent(ScientistEvent)
+    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000 && !CheckModifier(scienceReduction))){
+        SpawnEvent(scientistEvent)
     }
     if(randomNumber == 9991 && (mainPlayer.stability < 45 && mainPlayer.food > 3500)){
-        SpawnEvent(RobberyEvent)
+        SpawnEvent(robberyEvent)
     }
 
 //=======
-    document.getElementById("cell_food_stat_apc").innerHTML =  `APC: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
     
     
 //>>>>>>> beta
     //#endregion
     //End of event checkers
+    document.getElementById("cell_food_stat_apc").innerHTML =  `APC: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
+    
     var APS = 0
+    //Where food is produced
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
-        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
-        APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*200
+        mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/1000) * GetModifier("Production")))
+        APS += ((curBuil.production / 1000) + (((curBuil.production/1000) * GetModifier("Production"))))*100
 
 
     }
     document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${Math.round(APS*10)/10}`
+    //Makes sure upgrades can only be bought once
     for (let i = 0; i < allUpgrades.length; i++) {
         var curUpg = allUpgrades[i];
         if(document.getElementById(`buy_${curUpg.id}_button`)){
@@ -340,15 +343,7 @@ function Tick() {
     document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
     //Sets Shop text
 
-    // change this to only happen when buying a new building / upgrade ~ iain
-    if (currentTab == "buildings") {
-
-    }
-
-    if (currentTab == "upgrades") {
-        // code for updating upgrade cells here
-    }
-
+   
     window.setTimeout(Tick, 1)
 }
 
@@ -404,16 +399,16 @@ function BuyUpgrade(upgrade) {
 }
 
 function GetModifier(type) {//Returns the modifier
-    var Modifer = 0;
+    var modifier = 0;
     for (let i = 0; i < mainPlayer.modifiers.length; i++) {
         if (mainPlayer.modifiers[i].type == type) {
-            Modifer += mainPlayer.modifiers[i].boost
+            modifier += mainPlayer.modifiers[i].boost
         }
 
     }
     
-    //console.log(document.getElementById(`${type}_boost_display`))
-    if(Modifer >0){
+    
+    if(modifier >0){
         document.getElementById(`${type}_boost_display`).style.color = "Green"
     }
     else{
@@ -422,9 +417,9 @@ function GetModifier(type) {//Returns the modifier
     if(type == "Decay Rate"){
         document.getElementById(`${type}_boost_display`).style.color = "Red"
     }
-    document.getElementById(`${type}_boost_display`).innerHTML = `${Math.round(Modifer*100)}%`
+    document.getElementById(`${type}_boost_display`).innerHTML = `${Math.round(modifier*100)}%`
 
-    return Modifer
+    return modifier
 }
 
 // behavior for when the main clickable object is clicked
@@ -461,7 +456,8 @@ function Click() {
             isShaking = false;
         }, 200);
     });
-}//This will be improved later  
+}
+
 
 function ChangeTab(tab) {
 //  - changes current tab variable based on string passed to method by button on webpage
@@ -505,7 +501,7 @@ function WriteCell(newCell) {
     return `<div class='cell_shop_option' id='cell_shop_option_${newCell.id}'>
     <p class='cell_shop_option_title'>${newCell.name}</p>
     <p class='cell_shop_option_description'>${newCell.description}</p>
-    <span class='cell_shop_option_cound' id='shop_${newCell.id}_count'>${newCell.count}</span>
+    <span class='cell_shop_option_count' id='shop_${newCell.id}_count'>${newCell.count}</span>
     <button class='cell_shop_option_button_add' id='buy_${newCell.id}_button' onclick='${method}(${newCell.id})'>
     <span>$</span>${Math.round(newCell.cost)}</button></div>`
 }
