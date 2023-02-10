@@ -84,7 +84,7 @@ function SpawnEvent(Event) {
             var option = Event.options[i];                                 //This is the problem error see Event-Error for details
             optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events")), hasActiveEvent=false'>${option.name}</button>`
             document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
-    
+            autoResFX = option.effects
             //console.log(JSON.stringify(option.effects))
             //console.log(i)
         }
@@ -94,6 +94,14 @@ function SpawnEvent(Event) {
     }
     
    
+
+}
+autoResFX = {}
+function AutoResolveEffect(){
+    AddPlayerEffects(autoResFX)
+    Disable(document.getElementById("cell_event_log_events"))
+    hasActiveEvent = false
+    autoResFX = {}
 
 }
 
@@ -221,12 +229,23 @@ function CheckModifier(modifer){
         return false
     }
 }
+autoResTime = 0
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
+    if(hasActiveEvent){
+        autoResTime += 0.01
+    }
+    else{
+        autoResTime = 0
+    }
+    if(autoResTime >= 20){
+        autoResTime = 0
+        AutoResolveEffect()
+    }
     document.getElementById("cell_dog_range_food").value = mainDog.fullness
     if(mainDog.fullness > 0){
         mainDog.fullness -= 0.00001 + (0.001 * GetModifier("Decay Rate"))
