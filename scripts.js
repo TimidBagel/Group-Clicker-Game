@@ -1,6 +1,6 @@
 class Player {
     constructor(food, buildings, modifiers, upgrades, foodCap) {
-        this.food = 1000000000
+        this.food = 100
         this.buildings = []
         this.upgrades = []
         this.modifiers = []
@@ -147,10 +147,17 @@ const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.
 const blackMarketBoost = new Modifer("Production", "A deal from the black market", 0.55, 1200)
 const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 const BaseDecay = new Modifer("Decay Rate", "The base Decay rate", 1, -100)
+//<<<<<<< mods-and-events-dog
+const ScienceReduction = new Modifer("Decay Rate", "GMO", -0.2, -100)
+//=======
 
 const smallProductBoost = new Modifer("Production", "Small Production Boost", 0.1, -100)
 const productClick = new Modifer("Click Percent", "Power Of Kibble", 0.05, -100) //not working yet
 const largeProductBoost = new Modifer("Production", "Kibble Aura", 2, -100)
+
+
+//>>>>>>> beta
+
 mainPlayer.modifiers.push(BaseDecay)
 
 
@@ -174,11 +181,18 @@ const InflationEvent = new Event("Rising food prices", "Kibble prices are rising
 const DoggistAttack = new Event("Doggist Attack!", "A group of violent radicals, known as the doggists, have attacked your facilities. Ranting about \"All Dogs must be preserved! No matter how world-threatening\" and \"Since when did we not accept demanded blood sacrifices? how far our society has fallen\" They have damaged your facilites. How shall you proceed?", [new EventButton("Find these terrorists!", "Lose 4000 food<br>Gain 10% Stability<br> Lose one random building",{food:-4000, stability:10, buildingsLost:1}), new EventButton("Do nothing", "Lose one building", {buildingsLost: 1})])
 const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
 const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
-const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 10}))])
+//<<<<<<< mods-and-events-dog
+const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({stability: -20}))])
+const ScientistEvent = new Event("A scientist has approached you, and wants to research the dog.", [new EventButton("Accept his offer", "-5 feed amount. +2 decay rate.", {modifiers: [ScienceReduction], feedAmount: -5})], new EventButton("Decline his offer.", "Declines the offer!", {}))
+
+
+//=======
+//const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({inflation: 10}))])
 
 const kibbleSerf = new Building(1, 5, "Kibble Serf", "A worker to harvest more kibble", "kibbleSerf", 0)
 const kibbleCircle = new Building(5, 25, "Kibble Summoning Circle", "An occult circle to summon kibble from the Otherworld", "kibbleCircle", 0)
 const kibblePortal = new Building(15, 70, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblePortal", 0)
+//>>>>>>> beta
 const kibbleHele = new Building(35, 150, "Kibble Wretch", "This terrifying beast roams the countryside, gathering kibble and returning it to its master.", "kibbleHele", 0)
 const kibbleSpire = new Building(120, 500, "Kibble Obelisk", "Rising high and mighty, occult rituals are carried out atop this place.", "kibbleSpire", 0)
 const kibbleShip = new Building(500, 2000, "Kibble Spice Trade", "A spice road of kibble for you to control.", "kibbleShip", 0)
@@ -253,8 +267,7 @@ function Tick() {
     //Event Checkers
     //#region Event Checkers
     var randomNumber = Math.floor(Math.random() * 10001)
-    
-    //randomNumber = randomNumber
+
 
     if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
@@ -274,9 +287,19 @@ function Tick() {
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
         SpawnEvent(DogInvasionEvent)
     }
+//<<<<<<< mods-and-events-dog
+    if(randomNumber == 9990 && (mainPlayer.stability > 70 && mainPlayer.buildings.length > 10 && mainPlayer.food > 4000)){
+        SpawnEvent(ScientistEvent)
+    }
+    if(randomNumber == 9991 && (mainPlayer.stability < 45 && mainPlayer.food > 3500)){
+        SpawnEvent(RobberyEvent)
+    }
+
+//=======
     document.getElementById("cell_food_stat_apc").innerHTML =  `APC: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
     
     
+//>>>>>>> beta
     //#endregion
     //End of event checkers
     var APS = 0
@@ -329,8 +352,9 @@ function Tick() {
     window.setTimeout(Tick, 1)
 }
 
-function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] , stability=0, buildingsLost = 0} = {}) {
+function AddPlayerEffects({ inflation = 0, food = 0, foodCap = 0, modifiers = [], Buildings = [] , stability=0, buildingsLost = 0, feedAmount = 0} = {}) {
 
+    mainDog.feedAmount += feedAmount
     for (let i = 0; i < buildingsLost; i++) {
         mainPlayer.buildings.pop( Math.floor(Math.random() * mainPlayer.buildings.length))
         
