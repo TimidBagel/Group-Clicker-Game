@@ -155,7 +155,7 @@ mainPlayer.modifiers.push(BaseDecay)
 
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
-const productUpgrade = new Upgrade(1000, "Small Production Boost", "productUpgrade", "Increase Production by 10%", smallProductBoost)
+const productUpgrade = new Upgrade(1000, "Small Production Boost", "productUpgrade", "Increase Production by 10%", smallProductBoost, 0)
 const clickPower = new Upgrade(10000, "The Power of Kibble", "clickPower", "Increase APC by 5% of APS", productClick) //not working yet
 
 
@@ -163,6 +163,7 @@ const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
 hasActiveEvent = false
 
 allUpgrades.push(clickUpgrade)
+allUpgrades.push(productUpgrade)
 
 let currentTab = ""
 const InvestmentEvent = new Event("Investment offer", "Your efforts to feed the dog are getting noticed. A company has come forth to offer support.", [new EventButton("Request an investment", "Gain +15% Production for 5 Minutes", { modifiers: [investment] }), new EventButton("Request a donation", "Gain 1234 food", { food: 1234 })])
