@@ -82,10 +82,10 @@ function SpawnEvent(Event) {
         optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
         document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
 
-        console.log(JSON.stringify(option.effects))
-        console.log(i)
+        //console.log(JSON.stringify(option.effects))
+        //console.log(i)
     }
-    console.log(optionString)//Logs the string with the modifications described in the for loop
+    //console.log(optionString)//Logs the string with the modifications described in the for loop
 
     document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
 
@@ -199,7 +199,22 @@ allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 
-
+function CheckModifier(modifer){
+    var isTrue = false
+    for (let i = 0; i < mainPlayer.modifiers.length; i++) {
+        const curMod = mainPlayer.modifiers[i]
+        if(curMod.name == modifer.name&& curMod.type==modifer.type && curMod.boost == modifer.boost){
+            return true
+        }
+        else{
+           isTrue = false
+        }
+        
+    }
+    if(isTrue == false){
+        return false
+    }
+}
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
@@ -216,23 +231,26 @@ function Tick() {
     }
     //Event Checkers
     //#region Event Checkers
-    var randomNumber = Math.floor(Math.random() * 10001)
+    var randomNumber = Math.floor(Math.random() * 1001)
     
-    randomNumber = randomNumber
+    //randomNumber = randomNumber
 
     if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 9995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
+    if (randomNumber == 9995 && mainPlayer.food > 500 && !CheckModifier(blackMarketBoost) && !CheckModifier(policeClot)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
-        SpawnEvent(InvestmentEvent)
+    if(mainPlayer.buildings.length > 5 && !CheckModifier(investment) && mainPlayer.food <1000){
+        if (randomNumber == 994){
+            SpawnEvent(InvestmentEvent)
+        }
     }
+    
     if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
-    if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5)){
+    if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
         SpawnEvent(DogInvasionEvent)
     }
     //#endregion
