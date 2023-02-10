@@ -163,16 +163,18 @@ const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.
 const blackMarketBoost = new Modifer("Production", "A deal from the black market", 0.55, 1200)
 const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 const BaseDecay = new Modifer("Decay Rate", "The base Decay rate", 1, -100)
+const smallProductBoost = new Modifer("Production", "Small Production Boost", 0.1, -100)
+const productClick = new Modifer("Click Percent", "Power Of Kibble", 0.05, -100)
 mainPlayer.modifiers.push(BaseDecay)
 
 
 const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "clickUpgrade", "A Small click upgrade", smallClickBoost, 0)
+const productUpgrade = new Upgrade(1000, "Small Production Boost", "productUpgrade", "Increase Production by 10%", smallProductBoost)
+const clickPower = new Upgrade(10000, "The Power of Kibble", "clickPower", "Increase APC by 5% of APS", productClick)
 
-
-const kibblePortal = new Building(20, 150, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblePortal", 0)
+const kibblePortal = new Building(15, 70, "Kibble Portal", "An eldritch portal that brings in food from kibbhell","kibblePortal", 0)
 
 const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
-//const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
 hasActiveEvent = false
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
@@ -204,8 +206,8 @@ const kibbleFound = new Building(350, 50000, "Kibble Rune Foundry", "Using unfat
 const kibbleSpace = new Building(950, 200000, "Kibble Altar", "Turns blood into kibble! (May violate OSHA)", "kibbleSpace", 0)
 const kibbleNano = new Building(5000, 400000, "Kibblethullu", "A terrifying creature from the depths, only bound by a weak seal hastily fabricated. Who cares about impending doom when you can have kibble?", "kibbleNano", 0)
 
-allBuildings.push(kibbleHele)
 allBuildings.push(kibblePortal)
+allBuildings.push(kibbleHele)
 allBuildings.push(kibbleSpire)
 allBuildings.push(kibbleShip)
 allBuildings.push(kibbleTrade)
@@ -287,7 +289,7 @@ function Tick() {
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
-        APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*100
+        APS += ((curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production"))))*200
 
     }
     document.getElementById("cell_food_stat_cps").innerHTML =  `APS: ${Math.round(APS*10)/10}`
