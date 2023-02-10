@@ -149,6 +149,7 @@ const smallClickBoost = new Modifer("Click Power", "Small Click Power Boost", 0.
 const blackMarketBoost = new Modifer("Production", "A deal from the black market", 0.55, 1200)
 const policeClot = new Modifer("Production", "Beuracracy", -0.05, 300)
 const BaseDecay = new Modifer("Decay Rate", "The base Decay rate", 1, -100)
+const ScienceReduction = new Modifer("Decay Rate", "GMO", -0.2, -100)
 mainPlayer.modifiers.push(BaseDecay)
 
 
@@ -173,7 +174,7 @@ const DoggistAttack = new Event("Doggist Attack!", "A group of violent radicals,
 const BlackMarketEvent = new Event("A Shady Offer", "You have been appreached by a representative of the black market. He proposes a tantalizing offer: a small payment in exchange for longtime services. Surely he means well....", [new EventButton("But of Course!", "Lose 15% Stability<br>Lose 500 food<br>Gain a 55% Production bonus for 20 minutes", {food:-500, stability:-15, modifiers:[blackMarketBoost]}), new EventButton("Politely Decline", "", {food:0}), new EventButton("Rat him out to the police!", "Gain 5% Stability<br>Lose 50 food<br>Lose 5% Production for 5 minutes", {food:-50, stability:5, modifiers:[policeClot]})])
 const DogInvasionEvent = new Event("Dog Invasion", "A dog army has found your kibble buildings. They now are attacking your buildings.", [new EventButton("Ignore dog invasion", "-10% Production for 7 minutes",{ modifiers: [dogAttack] }), new EventButton("Defend kibble buildings", "Dogs take 5000 food from your kibble buildings", { food: -5000})])
 const RobberyEvent = new Event("Your are being robbed!", 'The robber has "kindly" requested for 3500 kibble.', [new EventButton("Fork over kibble.","gives 3500 kibble to the robber.", {food: -3500}), new EventButton("Fight the robber!", "(This is risky)", AddPlayerEffects({stability: -20}))])
-const ScientistEvent = new Event("A scientist has approached you, and wants to research the dog.", [new EventButton("Accept his offer", "-5 feed amount. +2 decay rate.", {modifiers: [BaseDecay += 2], feedAmount: -5})], new EventButton("Decline his offer.", "Declines the offer!"))
+const ScientistEvent = new Event("A scientist has approached you, and wants to research the dog.", [new EventButton("Accept his offer", "-5 feed amount. +2 decay rate.", {modifiers: [ScienceReduction], feedAmount: -5})], new EventButton("Decline his offer.", "Declines the offer!", {}))
 
 
 const kibbleHele = new Building(35, 150, "Kibble Wretch", "This terrifying beast roams the countryside, gathering kibble and returning it to its master.", "kibbleHele", 0)
