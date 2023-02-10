@@ -105,7 +105,7 @@ function SpawnEvent(Event) {
 autoResFX = {}
 
 function AutoResolveEffect(){
-    EmitMessage(0, JSON.stringify(autoResFX))
+    //EmitMessage(0, JSON.stringify(autoResFX))
     AddPlayerEffects(autoResFX)
     Disable(document.getElementById("cell_event_log_events"))
     hasActiveEvent = false
