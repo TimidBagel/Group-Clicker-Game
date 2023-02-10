@@ -5,19 +5,6 @@ body,
     padding: 0;
     margin: 0;
 }
-.modifierGrid{
-    display: grid;
-    grid-template-columns: 5% 10% 5% 10% 5% 10%;
-    grid-template-rows: 50% 50%;
-
-    background-color: rgb(126, 126, 126);
-    gap: 25px;
-    position: absolute;
-    bottom: -2px;
-    left: 155px;
-    
-    
-}
 
 #game {
     margin: auto;
@@ -35,6 +22,27 @@ body,
     --background-color-secondary: lightgrey;
 
     --cell-outline-color: grey;
+}
+
+/*Box */
+
+.modifierGrid{
+    display: grid;
+    grid-template-columns: 5% 10% 5% 10% 5% 10%;
+    grid-template-rows: 50% 50%;
+
+    background-color:var(--background-color-secondary);
+    gap: 25px;
+    position:static;
+
+    padding: 2%;
+    padding-left: auto;
+    padding-right: auto;
+}
+
+.modifier_center {
+    margin-left: auto;
+    margin-bottom: auto;
 }
 
 /* Cells */
