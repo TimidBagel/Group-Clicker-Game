@@ -250,8 +250,7 @@ function Tick() {
     //Event Checkers
     //#region Event Checkers
     var randomNumber = Math.floor(Math.random() * 10001)
-    
-    //randomNumber = randomNumber
+
 
     if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
