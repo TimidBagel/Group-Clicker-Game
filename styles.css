@@ -116,7 +116,7 @@ body,
     background-color: var(--cell-outline-color);
 }
 
-.cell_shop_options {
+#cell_shop_options {
     width: 100%;
     overflow-y: scroll;
     background-color: var(--background-color-secondary);

@@ -300,7 +300,7 @@ function BuyBuilding(building) {
     }
     else {
         mainPlayer.food -= building.cost;
-        EmitMessage(2, "Purchased Building!", `You have purchased ${building.name} for ${Math.round(building.cost)}.`)
+        EmitMessage(2, "Purchased Building!", `You have purchased ${building.name} for $${Math.round(building.cost)}.`)
         building.cost += (building.cost / 100) * mainPlayer.inflation
         mainPlayer.buildings.push(building)
         building.count++
