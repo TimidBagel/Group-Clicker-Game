@@ -15,14 +15,14 @@
     <span id="wrapper"> <!-- Wrapper is simply the application window -->
         <div id="game"> <!-- Game is where our games wrapper -->
             <div class="cell" id="cell_dog">
-                <img id="cell_dog_image_dog" width="60px"
+                <img id="cell_dog_image_dog" width="60px" onclick="FeedDog()"
                     src="https://media.istockphoto.com/id/931785704/vector/paw_print.jpg?s=612x612&w=0&k=20&c=CXBPHlf7XHdJiiOULJrI9nGZjVNAj7cqnkM_eDyDdCU="
                     alt="">
-                <input id="cell_dog_range_food" type="range" min="0" max="100" width="100%">
+                <input id="cell_dog_range_food" type="range" min="0" max="100" step="0.01"width="100%" disabled="true">
             </div>
             <div class="cell" id="cell_food">
                 <button id="cell_food_button_food" onclick="Click()">
-                    <img src="https://media.istockphoto.com/id/1148854779/vector/apple.jpg?s=612x612&w=0&k=20&c=MjPwHjAi5RzGUxLnVuPOyljykRM4f9k43qFmRMjtfV8="
+                    <img src="Media/FoodPlaceholder.png"
                         alt="" id="cell_food_image_food">
                 </button>
                 <div id="cell_food_stats">
@@ -68,14 +68,16 @@
                 </div>
                 <div>
                     <div id="modifer_display", class="modifierGrid">
-                        <img src="Media/PlaceholderFactory.png" width="45">
+                        <img src="Media/PlaceholderFactory.png" width="40   ">
                         <p id="Production_boost_display">eee</p>
-                        <img src="Media/MousePlaceholder.png" width="45">
+                        <img src="Media/MousePlaceholder.png" width="40">
                         <p id="Click Power_boost_display">eee</p>
-                        <img src="Media/InflationIconPlaceholder.png" width="45">
+                        <img src="Media/InflationIconPlaceholder.png" width="40">
                         <p id="inflation_counter"></p>
-                        <img src="Media/StabilityPlaceholder.png" width="45">
+                        <img src="Media/StabilityPlaceholder.png" width="40">
                         <p id="stability_counter"></p>
+                        <img src="Media/FoodPlaceholder.png" width="40">
+                        <p id="feed_need_counter"></p>
     
                     </div>
 

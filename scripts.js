@@ -10,6 +10,26 @@ class Player {
         this.stability = 80
     }
 }
+class Dog{
+    constructor(){
+        this.fullness = 0
+        this.decayrate = 1
+        this.feedAmount = 10
+        this.foodFlation = 15
+    }
+}
+const mainDog = new Dog();
+function FeedDog(){
+    if(mainPlayer.food >= mainDog.feedAmount){
+        mainPlayer.food -= mainDog.feedAmount
+        mainDog.fullness += 1
+        mainDog.feedAmount += ((mainDog.feedAmount/100)*mainDog.foodFlation)
+        
+    }
+    else{
+        alert("Not Enough food to feed dog!")
+    }
+}
 const mainPlayer = new Player();
 
 class Building {
@@ -177,31 +197,41 @@ allBuildings.push(kibbleFound)
 allBuildings.push(kibbleSpace)
 allBuildings.push(kibbleNano)
 
-//>>>>>>> new-buildings-upgrades-and-events
+
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
-
-    var randomNumber = Math.floor(Math.random() * 10001)
+    document.getElementById("cell_dog_range_food").value = mainDog.fullness
+    if(mainDog.fullness > 0){
+        mainDog.fullness -= 0.001
+    }
+    
+    if(mainDog.feedAmount > 10){
+        mainDog.feedAmount -= 0.0005
+    }
+    //Event Checkers
+    //#region Event Checkers
+    var randomNumber = Math.floor(Math.random() * 1001)
     
     randomNumber = randomNumber
 
-    if (randomNumber == 9998 && mainPlayer.buildings.length > 25) {
+    if (randomNumber == 998 && mainPlayer.buildings.length > 25) {
         SpawnEvent(InflationEvent)
     }
-    if (randomNumber == 9995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
+    if (randomNumber == 995 && mainPlayer.food > 500 && !mainPlayer.modifiers.includes(blackMarketBoost)) {
         SpawnEvent(BlackMarketEvent)
     }
-    if (randomNumber == 9994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
+    if (randomNumber == 994 && mainPlayer.buildings.length > 5 && !mainPlayer.modifiers.includes(investment) && mainPlayer.food <1000){
         SpawnEvent(InvestmentEvent)
     }
-    if(randomNumber == 9993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
+    if(randomNumber == 993 && (mainPlayer.stability < 25 || mainPlayer.buildings.length > 40 && mainPlayer.stability < 45 || GetModifier("Production") > 1 && mainPlayer.stability < 50)){
         SpawnEvent(DoggistAttack)
     }
-    
+    //#endregion
+    //End of event checkers
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
         var curBuil = mainPlayer.buildings[i]
         mainPlayer.food += (curBuil.production / 1000) + (((curBuil.production/500) * GetModifier("Production")))
@@ -230,6 +260,7 @@ function Tick() {
     GetModifier("Click Power")
     document.getElementById("inflation_counter").innerHTML = `${mainPlayer.inflation}%`
     document.getElementById("stability_counter").innerHTML = `${mainPlayer.stability}%`
+    document.getElementById("feed_need_counter").innerHTML = `${Math.round(mainDog.feedAmount)}`
     document.getElementById("cell_food_stat_food_value").innerHTML = `${Math.round(mainPlayer.food)}`
     //Sets Shop text
 

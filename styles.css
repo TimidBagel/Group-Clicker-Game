@@ -7,7 +7,7 @@ body,
 }
 .modifierGrid{
     display: grid;
-    grid-template-columns: 5% 10% 5% 10% 5% 10% 5% 10% 5% 10% 5% 10%;
+    grid-template-columns: 2.5% 8% 2.5% 8% 2.5% 8% 2.5% 8% 2.5% 8% 2.5% 8%;
     background-color: rgb(126, 126, 126);
     gap: 25px;
     position: absolute;
