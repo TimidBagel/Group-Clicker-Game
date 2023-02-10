@@ -71,23 +71,37 @@ class Event {
 
     }
 }
+
 //AddPlayerEffects
 function SpawnEvent(Event) {
-    document.getElementById("event_title").innerHTML = Event.title
-    document.getElementById("event_description").innerHTML = Event.description
-    SetActive(document.getElementById("cell_event_log_events"), false)
-    var optionString = ""//For demonstration.
-    for (let i = 0; i < Event.options.length; i++) {
-        var option = Event.options[i];                                 //This is the problem error see Event-Error for details
-        optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events"))'>${option.name}</button>`
-        document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
-
-        //console.log(JSON.stringify(option.effects))
-        //console.log(i)
+    if(!hasActiveEvent){
+        hasActiveEvent = true
+        document.getElementById("event_title").innerHTML = Event.title
+        document.getElementById("event_description").innerHTML = Event.description
+        SetActive(document.getElementById("cell_event_log_events"), false)
+        var optionString = ""//For demonstration.
+        for (let i = 0; i < Event.options.length; i++) {
+            var option = Event.options[i];                                 //This is the problem error see Event-Error for details
+            optionString += `<button class='cell_event_log_event_choice' onclick='AddPlayerEffects(${JSON.stringify(option.effects)})' onmouseover='SetActive(document.getElementById("event_tooltip_${i}"), false)' onmouseleave='Disable(document.getElementById("event_tooltip_${i}"))' onmouseup='Disable(document.getElementById("cell_event_log_events")), hasActiveEvent=false'>${option.name}</button>`
+            document.getElementById(`event_tooltip_${i}`).innerHTML = option.description
+            autoResFX = option.effects
+            //console.log(JSON.stringify(option.effects))
+            //console.log(i)
+        }
+        //console.log(optionString)//Logs the string with the modifications described in the for loop
+    
+        document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
     }
-    //console.log(optionString)//Logs the string with the modifications described in the for loop
+    
+   
 
-    document.getElementById("event_options_container").innerHTML = optionString//sets the innerHTML to "e" or whatever the original value was
+}
+autoResFX = {}
+function AutoResolveEffect(){
+    AddPlayerEffects(autoResFX)
+    Disable(document.getElementById("cell_event_log_events"))
+    hasActiveEvent = false
+    autoResFX = {}
 
 }
 
@@ -159,7 +173,7 @@ const kibblePortal = new Building(20, 150, "Kibble Portal", "An eldritch portal 
 
 const dogAttack = new Modifer("Production", "dog invasion", -0.1, 420)
 //const clickUpgrade = new Upgrade(300, "Small Click Upgrade", "smallclickupgrade", "A Small click upgrade", smallClickBoost)
-
+hasActiveEvent = false
 allBuildings.push(kibbleSerf)
 allBuildings.push(kibbleCircle)
 
@@ -215,12 +229,23 @@ function CheckModifier(modifer){
         return false
     }
 }
+autoResTime = 0
 function Tick() {
     /*console.log("hello");
     if (!mainPlayer.modifiers.includes(investment)) {
         SetActive(document.getElementById("investmentorgift_event"))
     }//This is a temporary event trigger to test the event.*/
     //Produce food from buildings
+    if(hasActiveEvent){
+        autoResTime += 0.01
+    }
+    else{
+        autoResTime = 0
+    }
+    if(autoResTime >= 20){
+        autoResTime = 0
+        AutoResolveEffect()
+    }
     document.getElementById("cell_dog_range_food").value = mainDog.fullness
     if(mainDog.fullness > 0){
         mainDog.fullness -= 0.00001 + (0.001 * GetModifier("Decay Rate"))
@@ -231,7 +256,7 @@ function Tick() {
     }
     //Event Checkers
     //#region Event Checkers
-    var randomNumber = Math.floor(Math.random() * 1001)
+    var randomNumber = Math.floor(Math.random() * 10001)
     
     //randomNumber = randomNumber
 
@@ -242,7 +267,7 @@ function Tick() {
         SpawnEvent(BlackMarketEvent)
     }
     if(mainPlayer.buildings.length > 5 && !CheckModifier(investment) && mainPlayer.food <1000){
-        if (randomNumber == 994){
+        if (randomNumber == 9994){
             SpawnEvent(InvestmentEvent)
         }
     }
@@ -253,6 +278,7 @@ function Tick() {
     if(randomNumber == 9992 && (mainPlayer.stability < 50 && mainPlayer.food > 5000 && GetModifier("Production") > 0.5 && !CheckModifier(dogAttack))){
         SpawnEvent(DogInvasionEvent)
     }
+    document.getElementById("cell_food_stat_apc").innerHTML =  `Apc: ${Math.round(1 + ((1* GetModifier("Click Power"))))}`
     //#endregion
     //End of event checkers
     for (let i = 0; i < mainPlayer.buildings.length; i++) {
